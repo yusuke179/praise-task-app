@@ -60,9 +60,14 @@
 
   @media (max-width: 480px) {
     .char-row {
-      flex-direction: column;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
     }
-    .char-photo { width: 180px; }
+    .char-figure { width: 60%; }
+    .char-photo { width: 100%; }
+    .speech-bubble { width: 40%; flex: none; padding: 10px 12px; }
+    .speech-text { font-size: 12px; line-height: 1.5; }
   }
 
   .char-photo.bounce {
@@ -114,22 +119,6 @@
     border-left: 0;
   }
 
-  @media (max-width: 480px) {
-    .speech-bubble::before {
-      top: -11px; left: 50%;
-      transform: translateX(-50%);
-      border-right-color: transparent;
-      border-bottom-color: #f8bbd9;
-      border-top: 0;
-    }
-    .speech-bubble::after {
-      top: -8px; left: 50%;
-      transform: translateX(-50%);
-      border-right-color: transparent;
-      border-bottom-color: #fff5f8;
-      border-top: 0;
-    }
-  }
 
   .speech-text {
     font-size: 14px;
