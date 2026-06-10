@@ -565,6 +565,8 @@
   let tasks = [];
   let endFlag = false;
   let lastEndDate = null;
+  let lastOpenDate = null;
+  let isFirstOpenToday = false;
 
   function todayStr() {
     const d = new Date();
@@ -586,9 +588,13 @@
   const modalOkBtn   = document.getElementById('modalOkBtn');
   const confettiLayer= document.getElementById('confettiLayer');
 
+  const MSG_MORNING = 'おはようございます☀<br><strong>今日も無理せず頑張りましょう♪</strong>';
+
   const MSG_NORMAL = '今日のタスクを追加してみましょう！<br><strong>一緒に頑張りましょう♪</strong>';
 
   const MSG_HAPPY = 'いい感じです♪<br><strong>その調子ですよ〜😊</strong>';
+
+  const MSG_PERFECT = '100点満点です！🎉<br><strong>今日もお疲れさまでした♪</strong>';
 
   const MSG_COMPLETE = '全部終わりましたね！<br><strong>さすがです〜✨</strong><br>今日もお疲れさまでした💕';
 
@@ -599,7 +605,7 @@
 
   function save() {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ tasks, endFlag, lastEndDate }));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ tasks, endFlag, lastEndDate, lastOpenDate }));
     } catch(e) {}
   }
   function load() {
@@ -610,14 +616,18 @@
         if (Array.isArray(p.tasks)) tasks = p.tasks;
         endFlag = !!p.endFlag;
         lastEndDate = p.lastEndDate || null;
+        lastOpenDate = p.lastOpenDate || null;
       }
-    } catch(e) { tasks = []; endFlag = false; lastEndDate = null; }
+    } catch(e) { tasks = []; endFlag = false; lastEndDate = null; lastOpenDate = null; }
 
     if (lastEndDate && lastEndDate !== todayStr()) {
       endFlag = false;
       tasks = tasks.filter(t => !t.done);
-      save();
     }
+
+    isFirstOpenToday = lastOpenDate !== todayStr();
+    lastOpenDate = todayStr();
+    save();
   }
 
   function setSpeech(html) {
@@ -673,16 +683,24 @@
       setSpeech(MSG_TIRED);
       return;
     }
-    const { total, done } = updateProgress();
+    const { total, done, pct } = updateProgress();
     if (total === 0) {
-      charPhoto.src = 'normal.png';
-      setSpeech(MSG_NORMAL);
-    } else if (done === total) {
-      charPhoto.src = 'happy.png';
-      setSpeech(MSG_COMPLETE);
-    } else {
+      if (isFirstOpenToday) {
+        charPhoto.src = 'morning.png';
+        setSpeech(MSG_MORNING);
+      } else {
+        charPhoto.src = 'normal.png';
+        setSpeech(MSG_NORMAL);
+      }
+    } else if (pct === 100) {
+      charPhoto.src = 'perfect.png';
+      setSpeech(MSG_PERFECT);
+    } else if (pct >= 50) {
       charPhoto.src = 'happy.png';
       setSpeech(MSG_HAPPY);
+    } else {
+      charPhoto.src = 'normal.png';
+      setSpeech(MSG_NORMAL);
     }
   }
 
