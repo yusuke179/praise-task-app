@@ -30,11 +30,35 @@
     min-height: 100vh;
   }
 
+  /* ===== Morning button ===== */
+  .morning-section {
+    padding: 14px 24px 0;
+  }
+
+  .btn-morning {
+    width: 100%;
+    background: linear-gradient(135deg, #ffe082, #ffb74d);
+    color: #7a4a00;
+    border: none;
+    border-radius: 28px;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(255, 167, 38, 0.35);
+    letter-spacing: 0.03em;
+    transition: transform 0.15s, box-shadow 0.15s;
+    animation: taskSlideIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .btn-morning:hover { transform: scale(1.02); box-shadow: 0 6px 18px rgba(255,167,38,0.45); }
+  .btn-morning:active { transform: scale(0.97); }
+
   /* ===== Character Header ===== */
   .character-section {
     background: white;
     border-radius: 0 0 36px 36px;
-    padding: 28px 28px 24px;
+    padding: 22px 18px 20px;
     box-shadow: 0 6px 24px rgba(255, 150, 180, 0.14);
   }
 
@@ -43,31 +67,51 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 18px;
+    gap: 12px;
   }
 
+  /* キャラクター70% / 吹き出し30% */
   .char-figure {
-    flex-shrink: 0;
+    flex: 0 0 70%;
+    width: 70%;
   }
 
   .char-photo {
-    width: 260px;
+    width: 100%;
     height: auto;
     display: block;
     object-fit: contain;
     transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
   }
 
+  .speech-bubble {
+    flex: 0 0 calc(30% - 12px);
+    width: calc(30% - 12px);
+    background: linear-gradient(135deg, #fff5f8, #fce4ec);
+    border: 2px solid #f8bbd9;
+    border-radius: 16px;
+    padding: 10px 10px;
+    position: relative;
+    box-shadow: 0 3px 12px rgba(233,30,99,0.1);
+    animation: bubblePop 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    text-align: center;
+  }
+
+  .speech-text {
+    font-size: 12px;
+    line-height: 1.6;
+    color: #c2185b;
+    font-weight: 500;
+    word-break: break-word;
+  }
+  .speech-text strong { color: #e91e63; font-weight: 700; }
+
   @media (max-width: 480px) {
-    .char-row {
-      flex-direction: row;
-      align-items: center;
-      gap: 10px;
-    }
-    .char-figure { width: 60%; }
-    .char-photo { width: 100%; }
-    .speech-bubble { width: 40%; flex: none; padding: 10px 12px; }
-    .speech-text { font-size: 12px; line-height: 1.5; }
+    .character-section { padding: 18px 12px 16px; }
+    .char-row { gap: 8px; }
+    .char-figure { flex: 0 0 70%; width: 70%; }
+    .speech-bubble { flex: 0 0 calc(30% - 8px); width: calc(30% - 8px); padding: 8px 8px; }
+    .speech-text { font-size: 11px; line-height: 1.55; }
   }
 
   .char-photo.bounce {
@@ -79,18 +123,6 @@
     40%  { transform: scale(1.04) translateY(-5px); }
     70%  { transform: scale(0.98) translateY(2px); }
     100% { transform: scale(1) translateY(0); }
-  }
-
-  .speech-bubble {
-    flex: 1;
-    background: linear-gradient(135deg, #fff5f8, #fce4ec);
-    border: 2px solid #f8bbd9;
-    border-radius: 20px;
-    padding: 14px 18px;
-    position: relative;
-    box-shadow: 0 3px 12px rgba(233,30,99,0.1);
-    animation: bubblePop 0.35s cubic-bezier(0.34,1.56,0.64,1);
-    text-align: center;
   }
 
   @keyframes bubblePop {
@@ -118,15 +150,6 @@
     border-right-color: #fff5f8;
     border-left: 0;
   }
-
-
-  .speech-text {
-    font-size: 14px;
-    line-height: 1.75;
-    color: #c2185b;
-    font-weight: 500;
-  }
-  .speech-text strong { color: #e91e63; font-weight: 700; }
 
   /* ===== Progress ===== */
   .progress-section {
@@ -340,6 +363,70 @@
   }
   .btn-end:hover { background: #fff5f8; border-color: #e91e63; box-shadow: 0 3px 10px rgba(233,30,99,0.12); }
 
+  /* ===== Lifetime stats ===== */
+  .lifetime-section {
+    padding: 18px 24px 0;
+  }
+
+  .lifetime-card {
+    background: white;
+    border-radius: 24px;
+    padding: 20px 22px;
+    box-shadow: 0 4px 16px rgba(255,150,180,0.12);
+    text-align: center;
+  }
+
+  .lifetime-label {
+    display: block;
+    font-size: 12px;
+    color: #f06292;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+
+  .lifetime-count {
+    display: block;
+    font-size: 32px;
+    font-weight: 800;
+    color: #e91e63;
+    line-height: 1.3;
+    margin-bottom: 12px;
+  }
+  .lifetime-count .unit { font-size: 15px; font-weight: 600; margin-left: 2px; }
+
+  .event-bar-bg {
+    background: #fce4ec;
+    border-radius: 10px;
+    height: 14px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  .event-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ffd54f, #ffb300);
+    border-radius: 10px;
+    width: 0%;
+    transition: width 0.55s cubic-bezier(0.4,0,0.2,1);
+    position: relative;
+  }
+  .event-bar-fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 60%, rgba(255,255,255,0.4));
+    border-radius: 10px;
+  }
+
+  .event-remain {
+    display: block;
+    font-size: 12px;
+    color: #f06292;
+    font-weight: 500;
+  }
+  .event-remain strong { color: #e91e63; font-weight: 700; }
+
   .footer-note {
     text-align: center;
     color: #f8bbd9;
@@ -370,7 +457,7 @@
     100% { transform: translateY(110vh) rotate(900deg) scale(0.5); opacity: 0; }
   }
 
-  /* ===== End-of-day Modal ===== */
+  /* ===== Modal (end-of-day / event) ===== */
   .modal-overlay {
     position: fixed;
     inset: 0;
@@ -463,11 +550,39 @@
     transition: transform 0.15s;
   }
   .btn-modal-ok:hover { transform: scale(1.04); }
+
+  /* イベントモーダル(ゴールド調) */
+  .modal.event-modal {
+    box-shadow: 0 24px 64px rgba(255,160,0,0.3);
+    border: 2px solid #ffd54f;
+  }
+  .event-modal .modal-msg { color: #b26a00; }
+  .event-modal .btn-modal-ok {
+    background: linear-gradient(135deg, #ffd54f, #ffb300);
+    color: #7a4a00;
+    box-shadow: 0 5px 18px rgba(255,160,0,0.35);
+  }
+  .event-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #ffd54f, #ffb300);
+    color: #7a4a00;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    border-radius: 14px;
+    padding: 5px 16px;
+    margin-bottom: 14px;
+  }
 </style>
 </head>
 <body>
 
 <div class="app">
+
+  <!-- おはようボタン -->
+  <div class="morning-section" id="morningSection" style="display:none">
+    <button class="btn-morning" id="morningBtn">☀️ おはようございます</button>
+  </div>
 
   <!-- キャラクター -->
   <div class="character-section">
@@ -476,10 +591,7 @@
         <img src="normal.png" alt="秘書キャラクター" class="char-photo" id="charPhoto">
       </div>
       <div class="speech-bubble" id="speechBubble">
-        <p class="speech-text" id="speechText">
-          今日のタスクを追加してみましょう！<br>
-          <strong>一緒に頑張りましょう♪</strong>
-        </p>
+        <p class="speech-text" id="speechText"></p>
       </div>
     </div>
   </div>
@@ -516,6 +628,18 @@
     <button class="btn-end" id="endBtn">今日はこれで終了</button>
   </div>
 
+  <!-- 累計達成タスク数 -->
+  <div class="lifetime-section">
+    <div class="lifetime-card">
+      <span class="lifetime-label">累計達成タスク数</span>
+      <span class="lifetime-count"><span id="lifetimeCount">0</span><span class="unit">件</span></span>
+      <div class="event-bar-bg">
+        <div class="event-bar-fill" id="eventBarFill"></div>
+      </div>
+      <span class="event-remain" id="eventRemain"></span>
+    </div>
+  </div>
+
   <p class="footer-note">入力内容はブラウザに自動保存されます（このパソコン・このブラウザのみ）</p>
 
 </div>
@@ -548,8 +672,121 @@
   </div>
 </div>
 
+<!-- イベントモーダル -->
+<div class="modal-overlay" id="eventModal" style="display:none">
+  <div class="modal event-modal">
+    <span class="event-badge" id="eventBadge">🎉 50件達成</span>
+    <img src="event50.png" alt="お祝いキャラクター" class="modal-photo" id="eventPhoto">
+    <p class="modal-msg" id="eventMsg"></p>
+    <button class="btn-modal-ok" id="eventOkBtn">ありがとう♪</button>
+  </div>
+</div>
+
 <script>
 (function () {
+  'use strict';
+
+  /* =========================================================
+   * 設定（キャラクター・イベント・メッセージはここで一元管理）
+   *
+   * 別キャラクター（ツンデレ上司版・妹キャラ版など）を作る場合は
+   * CHARACTERS に新しい定義を追加し、ACTIVE_CHARACTER を切り替える。
+   * 画像・状態・イベント・セリフはすべて設定データで完結する。
+   * ========================================================= */
+
+  const CHARACTERS = {
+    secretary: {
+      name: '秘書',
+      // 状態遷移順: morning → normal → support → cheer → perfect → tired
+      states: {
+        morning: {
+          image: 'morning.png',
+          messages: [
+            'おはようございます☀️',
+            '今日も無理せず頑張りましょう♪',
+            '小さな一歩でも前進です😊',
+          ],
+        },
+        normal: {
+          image: 'normal.png',
+          messages: [
+            '今日もおつかれさまです♪',
+            '一緒に進めていきましょう😊',
+            '今日のタスクを追加してみましょう！',
+          ],
+        },
+        support: {
+          image: 'support.png',
+          messages: [
+            '無理せず進めてくださいね☕',
+            '焦らなくても大丈夫ですよ♪',
+            'いいペースですよ😊',
+          ],
+        },
+        cheer: {
+          image: 'happy.png',
+          messages: [
+            'あと少しです✨',
+            '頑張ってくださいね💪',
+            'その調子ですよ〜😊',
+          ],
+        },
+        perfect: {
+          image: 'perfect.png',
+          messages: [
+            '全タスク完了です🎉',
+            '本当に素晴らしいです✨',
+            '100点満点です！🎉',
+          ],
+        },
+        tired: {
+          image: 'tired.png',
+          messages: [
+            '今日もお疲れさまでした🌙',
+            'ゆっくり休んでくださいね♪',
+          ],
+        },
+      },
+      // 累計達成数イベント（count の昇順で定義する）
+      events: [
+        {
+          count: 50,
+          image: 'event50.png',
+          messages: [
+            '50タスク達成おめでとうございます🎉',
+            '小さな積み重ねって素敵ですね♪',
+          ],
+        },
+        { count: 100,  image: 'special.png', messages: ['100タスク達成おめでとうございます♪'] },
+        { count: 200,  image: 'special.png', messages: ['もう200件ですね😊'] },
+        { count: 300,  image: 'special.png', messages: ['本当に頑張っていますね♪'] },
+        { count: 500,  image: 'special.png', messages: ['私、とても誇らしいです✨'] },
+        { count: 1000, image: 'special.png', messages: ['ここまで続けられる人はなかなかいません♪'] },
+      ],
+      endModalMessage: '今日はここまでですね😊<br>残りのタスクは明日に繰り越しておきます♪<br>お疲れさまでした💕',
+    },
+  };
+
+  const ACTIVE_CHARACTER = 'secretary';
+  const CHAR = CHARACTERS[ACTIVE_CHARACTER];
+
+  /* =========================================================
+   * 状態判定（達成率 → 状態名）
+   * ========================================================= */
+  function resolveStateName(ctx) {
+    if (ctx.endFlag) return 'tired';
+    if (ctx.total === 0) return ctx.isFirstOpenToday ? 'morning' : 'normal';
+    if (ctx.pct === 100) return 'perfect';
+    if (ctx.pct >= 80) return 'cheer';
+    if (ctx.pct >= 50) return 'support';
+    return 'normal';
+  }
+
+  /* =========================================================
+   * 永続化
+   * 既存キーをそのまま使い、新フィールドは未定義なら初期化する
+   * （既存ユーザーのデータを引き継ぐ）
+   * ========================================================= */
   const STORAGE_KEY = 'secretaryTaskApp.v3';
 
   let tasks = [];
@@ -557,12 +794,60 @@
   let lastEndDate = null;
   let lastOpenDate = null;
   let isFirstOpenToday = false;
+  let totalDone = 0;          // 累計達成タスク数
+  let shownEvents = [];       // 表示済みイベントの count 一覧
+  let lastMorningDate = null; // おはようボタンを押した日
 
   function todayStr() {
     const d = new Date();
     return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
   }
 
+  function save() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        tasks, endFlag, lastEndDate, lastOpenDate,
+        totalDone, shownEvents, lastMorningDate,
+      }));
+    } catch(e) {}
+  }
+
+  function load() {
+    try {
+      const d = localStorage.getItem(STORAGE_KEY);
+      if (d) {
+        const p = JSON.parse(d);
+        if (Array.isArray(p.tasks)) tasks = p.tasks;
+        endFlag = !!p.endFlag;
+        lastEndDate = p.lastEndDate || null;
+        lastOpenDate = p.lastOpenDate || null;
+        lastMorningDate = p.lastMorningDate || null;
+        shownEvents = Array.isArray(p.shownEvents) ? p.shownEvents : [];
+        if (typeof p.totalDone === 'number') {
+          totalDone = p.totalDone;
+        } else {
+          // 旧データからの移行: 現在完了済みのタスク数を初期値にする
+          totalDone = tasks.filter(t => t.done).length;
+        }
+      }
+    } catch(e) {
+      tasks = []; endFlag = false; lastEndDate = null; lastOpenDate = null;
+      totalDone = 0; shownEvents = []; lastMorningDate = null;
+    }
+
+    if (lastEndDate && lastEndDate !== todayStr()) {
+      endFlag = false;
+      tasks = tasks.filter(t => !t.done);
+    }
+
+    isFirstOpenToday = lastOpenDate !== todayStr();
+    lastOpenDate = todayStr();
+    save();
+  }
+
+  /* =========================================================
+   * DOM
+   * ========================================================= */
   const taskInput    = document.getElementById('taskInput');
   const addBtn       = document.getElementById('addBtn');
   const taskListEl   = document.getElementById('taskList');
@@ -577,48 +862,19 @@
   const modalMsg     = document.getElementById('modalMsg');
   const modalOkBtn   = document.getElementById('modalOkBtn');
   const confettiLayer= document.getElementById('confettiLayer');
-
-  const MSG_MORNING = 'おはようございます☀<br><strong>今日も無理せず頑張りましょう♪</strong>';
-
-  const MSG_NORMAL = '今日のタスクを追加してみましょう！<br><strong>一緒に頑張りましょう♪</strong>';
-
-  const MSG_HAPPY = 'いい感じです♪<br><strong>その調子ですよ〜😊</strong>';
-
-  const MSG_PERFECT = '100点満点です！🎉<br><strong>今日もお疲れさまでした♪</strong>';
-
-  const MSG_COMPLETE = '全部終わりましたね！<br><strong>さすがです〜✨</strong><br>今日もお疲れさまでした💕';
-
-  const MSG_TIRED = '今日はここまでですね😊<br>残りのタスクは明日に繰り越しておきます♪<br>お疲れさまでした💕';
+  const morningSection = document.getElementById('morningSection');
+  const morningBtn   = document.getElementById('morningBtn');
+  const lifetimeCount= document.getElementById('lifetimeCount');
+  const eventBarFill = document.getElementById('eventBarFill');
+  const eventRemain  = document.getElementById('eventRemain');
+  const eventModal   = document.getElementById('eventModal');
+  const eventBadge   = document.getElementById('eventBadge');
+  const eventPhoto   = document.getElementById('eventPhoto');
+  const eventMsg     = document.getElementById('eventMsg');
+  const eventOkBtn   = document.getElementById('eventOkBtn');
 
   function rand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
   function makeId() { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
-
-  function save() {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ tasks, endFlag, lastEndDate, lastOpenDate }));
-    } catch(e) {}
-  }
-  function load() {
-    try {
-      const d = localStorage.getItem(STORAGE_KEY);
-      if (d) {
-        const p = JSON.parse(d);
-        if (Array.isArray(p.tasks)) tasks = p.tasks;
-        endFlag = !!p.endFlag;
-        lastEndDate = p.lastEndDate || null;
-        lastOpenDate = p.lastOpenDate || null;
-      }
-    } catch(e) { tasks = []; endFlag = false; lastEndDate = null; lastOpenDate = null; }
-
-    if (lastEndDate && lastEndDate !== todayStr()) {
-      endFlag = false;
-      tasks = tasks.filter(t => !t.done);
-    }
-
-    isFirstOpenToday = lastOpenDate !== todayStr();
-    lastOpenDate = todayStr();
-    save();
-  }
 
   function setSpeech(html) {
     speechText.innerHTML = html;
@@ -643,6 +899,110 @@
     return { total, done, pct };
   }
 
+  /* =========================================================
+   * キャラクター表示
+   * 状態が変わったときだけランダムでセリフを引き直す
+   * ========================================================= */
+  let currentState = null;
+
+  function updateCharacter(force) {
+    const { total, pct } = updateProgress();
+    const stateName = resolveStateName({ endFlag, total, pct, isFirstOpenToday });
+    const state = CHAR.states[stateName];
+    if (!state) return;
+
+    charPhoto.src = state.image;
+    if (force || stateName !== currentState) {
+      setSpeech(rand(state.messages));
+      currentState = stateName;
+    }
+  }
+
+  function showStateNow(stateName) {
+    const state = CHAR.states[stateName];
+    if (!state) return;
+    charPhoto.src = state.image;
+    setSpeech(rand(state.messages));
+    currentState = stateName;
+    bounceChar();
+  }
+
+  /* =========================================================
+   * 累計達成数・次イベントまでの進捗
+   * ========================================================= */
+  function updateLifetime() {
+    lifetimeCount.textContent = totalDone;
+
+    const thresholds = CHAR.events.map(ev => ev.count);
+    const next = thresholds.find(c => c > totalDone);
+
+    if (next === undefined) {
+      eventBarFill.style.width = '100%';
+      eventRemain.innerHTML = 'すべてのイベントを達成しました🎉';
+      return;
+    }
+
+    let prev = 0;
+    for (const c of thresholds) {
+      if (c <= totalDone) prev = c;
+    }
+    const pct = Math.round((totalDone - prev) / (next - prev) * 100);
+    eventBarFill.style.width = pct + '%';
+    eventRemain.innerHTML = `次のイベントまで <strong>あと${next - totalDone}件</strong>`;
+  }
+
+  /* =========================================================
+   * イベント（初回到達時のみ表示）
+   * ========================================================= */
+  function checkEvents() {
+    const reached = CHAR.events.filter(ev => totalDone >= ev.count && !shownEvents.includes(ev.count));
+    if (reached.length === 0) return;
+
+    // 複数同時到達時は最大のものを表示し、すべて表示済みにする
+    const ev = reached[reached.length - 1];
+    reached.forEach(r => shownEvents.push(r.count));
+    save();
+
+    eventBadge.textContent = `🎉 ${ev.count}件達成`;
+    eventPhoto.src = ev.image;
+    eventMsg.innerHTML = ev.messages.join('<br>');
+    eventModal.style.display = 'flex';
+    shootConfetti();
+  }
+
+  function closeEventModal() {
+    eventModal.style.display = 'none';
+    stopConfetti();
+    updateCharacter(true);
+  }
+
+  eventOkBtn.addEventListener('click', closeEventModal);
+  eventModal.addEventListener('click', e => { if (e.target === eventModal) closeEventModal(); });
+
+  /* =========================================================
+   * おはようボタン
+   * 「今日はこれで終了」を押した翌日（=日付が変わったら）再表示。
+   * 同じ日に押したら非表示にする。
+   * ========================================================= */
+  function updateMorningButton() {
+    const show = lastMorningDate !== todayStr() && !endFlag;
+    morningSection.style.display = show ? 'block' : 'none';
+  }
+
+  morningBtn.addEventListener('click', () => {
+    lastMorningDate = todayStr();
+    save();
+    updateMorningButton();
+    showStateNow('morning');
+  });
+
+  /* =========================================================
+   * タスク描画・操作
+   * ========================================================= */
+  function escHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
   function render() {
     taskListEl.innerHTML = '';
     emptyMsg.style.display = tasks.length === 0 ? 'block' : 'none';
@@ -665,37 +1025,8 @@
 
     updateProgress();
     updateCharacter();
-  }
-
-  function updateCharacter() {
-    if (endFlag) {
-      charPhoto.src = 'tired.png';
-      setSpeech(MSG_TIRED);
-      return;
-    }
-    const { total, done, pct } = updateProgress();
-    if (total === 0) {
-      if (isFirstOpenToday) {
-        charPhoto.src = 'morning.png';
-        setSpeech(MSG_MORNING);
-      } else {
-        charPhoto.src = 'normal.png';
-        setSpeech(MSG_NORMAL);
-      }
-    } else if (pct === 100) {
-      charPhoto.src = 'perfect.png';
-      setSpeech(MSG_PERFECT);
-    } else if (pct >= 50) {
-      charPhoto.src = 'happy.png';
-      setSpeech(MSG_HAPPY);
-    } else {
-      charPhoto.src = 'normal.png';
-      setSpeech(MSG_NORMAL);
-    }
-  }
-
-  function escHtml(s) {
-    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    updateLifetime();
+    updateMorningButton();
   }
 
   function addTask(text) {
@@ -711,6 +1042,13 @@
     if (!task) return;
     const wasDone = task.done;
     task.done = !task.done;
+
+    if (!wasDone && task.done) {
+      totalDone++;
+    } else if (wasDone && !task.done) {
+      totalDone = Math.max(0, totalDone - 1);
+    }
+
     save();
     render();
 
@@ -718,6 +1056,7 @@
       bounceChar();
       const { done, total } = updateProgress();
       if (done === total && total > 0) shootConfetti();
+      checkEvents();
     }
   }
 
@@ -747,6 +1086,9 @@
     }
   });
 
+  /* =========================================================
+   * 終了ボタン・モーダル
+   * ========================================================= */
   endBtn.addEventListener('click', () => {
     const { done, total, pct } = updateProgress();
     const remain = total - done;
@@ -758,9 +1100,10 @@
     endFlag = true;
     lastEndDate = todayStr();
     save();
-    updateCharacter();
+    updateCharacter(true);
+    updateMorningButton();
 
-    modalMsg.innerHTML = MSG_TIRED;
+    modalMsg.innerHTML = CHAR.endModalMessage;
     modal.style.display = 'flex';
   });
 
@@ -772,6 +1115,9 @@
     stopConfetti();
   }
 
+  /* =========================================================
+   * 紙吹雪
+   * ========================================================= */
   let confettiTimer = null;
 
   function shootConfetti() {
