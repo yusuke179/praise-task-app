@@ -342,6 +342,148 @@
     padding: 28px 0;
   }
 
+  /* ===== Schedule ===== */
+  .schedule-section {
+    padding: 10px 24px;
+  }
+
+  .btn-schedule-toggle {
+    width: 100%;
+    background: white;
+    color: #e91e63;
+    border: 2px dashed #f8bbd9;
+    border-radius: 28px;
+    padding: 11px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 10px;
+  }
+  .btn-schedule-toggle:hover { background: #fff5f8; border-color: #e91e63; }
+
+  .schedule-form {
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    background: white;
+    border-radius: 18px;
+    padding: 14px;
+    box-shadow: 0 2px 10px rgba(255,150,180,0.12);
+    margin-bottom: 10px;
+    animation: taskSlideIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .schedule-form.open { display: flex; }
+
+  .form-row { display: flex; gap: 8px; }
+  .form-row > * { flex: 1; }
+
+  .sch-input {
+    border: 2px solid #f8bbd9;
+    border-radius: 14px;
+    padding: 9px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    color: #444;
+    outline: none;
+    background: white;
+    width: 100%;
+    min-width: 0;
+    transition: border-color 0.2s;
+  }
+  .sch-input:focus { border-color: #e91e63; }
+  .sch-input::placeholder { color: #f48fb1; }
+
+  .btn-sch-save {
+    background: linear-gradient(135deg, #f48fb1, #e91e63);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(233,30,99,0.25);
+    transition: transform 0.15s;
+  }
+  .btn-sch-save:hover { transform: scale(1.03); }
+
+  .btn-sch-cancel {
+    background: white;
+    color: #f06292;
+    border: 2px solid #f8bbd9;
+    border-radius: 20px;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-sch-cancel:hover { background: #fff5f8; border-color: #e91e63; }
+
+  .schedule-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .schedule-item {
+    background: white;
+    border-radius: 18px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    box-shadow: 0 2px 10px rgba(255,150,180,0.1);
+    border: 1.5px solid transparent;
+    transition: border-color 0.2s;
+    animation: taskSlideIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .schedule-item:hover { border-color: #f8bbd9; }
+  .schedule-item.today-item {
+    border-color: #f48fb1;
+    background: linear-gradient(135deg, #fff5f8, #fce4ec);
+  }
+  .schedule-item.past { opacity: 0.55; }
+
+  .sch-info { flex: 1; min-width: 0; }
+  .sch-when { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
+  .sch-date {
+    font-size: 11px;
+    font-weight: 700;
+    color: #f06292;
+    background: #fce4ec;
+    border-radius: 10px;
+    padding: 2px 9px;
+    flex-shrink: 0;
+  }
+  .sch-date.is-today {
+    background: linear-gradient(135deg, #f48fb1, #e91e63);
+    color: white;
+  }
+  .sch-time { font-size: 13px; font-weight: 700; color: #e91e63; }
+  .sch-title { font-size: 14px; color: #444; font-weight: 600; word-break: break-word; }
+  .sch-memo { font-size: 12px; color: #999; margin-top: 2px; word-break: break-word; }
+
+  .sch-edit, .sch-del {
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px 6px;
+    border-radius: 50%;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .sch-edit { color: #f48fb1; font-size: 15px; }
+  .sch-edit:hover { color: #e91e63; background: #fce4ec; }
+  .sch-del { color: #f8bbd9; font-size: 18px; }
+  .sch-del:hover { color: #e91e63; background: #fce4ec; }
+
   /* ===== End button ===== */
   .end-section {
     padding: 14px 24px 0;
@@ -623,6 +765,29 @@
     <p class="empty-msg" id="emptyMsg">タスクを追加してみましょう♪</p>
   </div>
 
+  <!-- 予定 -->
+  <div class="schedule-section">
+    <div class="section-title">予定</div>
+
+    <button class="btn-schedule-toggle" id="scheduleToggleBtn">＋ 予定を追加</button>
+
+    <div class="schedule-form" id="scheduleForm">
+      <div class="form-row">
+        <input type="date" class="sch-input" id="schDate">
+        <input type="time" class="sch-input" id="schTime">
+      </div>
+      <input type="text" class="sch-input" id="schTitle" placeholder="予定名（例：会議）" maxlength="50">
+      <input type="text" class="sch-input" id="schMemo" placeholder="メモ（任意）" maxlength="200">
+      <div class="form-row">
+        <button class="btn-sch-save" id="schSaveBtn">保存</button>
+        <button class="btn-sch-cancel" id="schCancelBtn">キャンセル</button>
+      </div>
+    </div>
+
+    <ul class="schedule-list" id="scheduleList"></ul>
+    <p class="empty-msg" id="scheduleEmptyMsg">予定はまだありません</p>
+  </div>
+
   <!-- 終了ボタン -->
   <div class="end-section">
     <button class="btn-end" id="endBtn">今日はこれで終了</button>
@@ -703,6 +868,8 @@
           image: 'morning.png',
           messages: [
             'おはようございます☀️',
+            '今日はどんな一日にしましょうか？',
+            '無理せずいきましょうね♪',
             '今日も無理せず頑張りましょう♪',
             '小さな一歩でも前進です😊',
           ],
@@ -743,10 +910,23 @@
           image: 'tired.png',
           messages: [
             '今日もお疲れさまでした🌙',
-            'ゆっくり休んでくださいね♪',
+            '残りは明日に回しましょうね',
+            'ゆっくり休んでください♪',
           ],
         },
       },
+      // 今日の予定を知らせるセリフ（{time}・{title} が置換される）
+      scheduleMessages: [
+        '今日は{time}から{title}が入ってますよっ❤️',
+        '{time}から{title}ですね。忘れないようにしましょう😊',
+        '今日は予定がありますよ♪ {time}から{title}です',
+      ],
+      // タスクを1件完了したときのセリフ
+      taskDoneMessages: [
+        'いい感じです♪',
+        'その調子です😊',
+        '一つ終わりましたね、えらいです✨',
+      ],
       // 累計達成数イベント（count の昇順で定義する）
       events: [
         {
@@ -790,6 +970,7 @@
   const STORAGE_KEY = 'secretaryTaskApp.v3';
 
   let tasks = [];
+  let schedules = [];  // { id, date: 'YYYY-MM-DD', time: 'HH:MM', title, memo }
   let endFlag = false;
   let lastEndDate = null;
   let lastOpenDate = null;
@@ -806,7 +987,7 @@
   function save() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        tasks, endFlag, lastEndDate, lastOpenDate,
+        tasks, schedules, endFlag, lastEndDate, lastOpenDate,
         totalDone, shownEvents, lastMorningDate,
       }));
     } catch(e) {}
@@ -818,6 +999,7 @@
       if (d) {
         const p = JSON.parse(d);
         if (Array.isArray(p.tasks)) tasks = p.tasks;
+        if (Array.isArray(p.schedules)) schedules = p.schedules;
         endFlag = !!p.endFlag;
         lastEndDate = p.lastEndDate || null;
         lastOpenDate = p.lastOpenDate || null;
@@ -831,7 +1013,7 @@
         }
       }
     } catch(e) {
-      tasks = []; endFlag = false; lastEndDate = null; lastOpenDate = null;
+      tasks = []; schedules = []; endFlag = false; lastEndDate = null; lastOpenDate = null;
       totalDone = 0; shownEvents = []; lastMorningDate = null;
     }
 
@@ -872,6 +1054,16 @@
   const eventPhoto   = document.getElementById('eventPhoto');
   const eventMsg     = document.getElementById('eventMsg');
   const eventOkBtn   = document.getElementById('eventOkBtn');
+  const scheduleToggleBtn = document.getElementById('scheduleToggleBtn');
+  const scheduleForm  = document.getElementById('scheduleForm');
+  const schDate       = document.getElementById('schDate');
+  const schTime       = document.getElementById('schTime');
+  const schTitle      = document.getElementById('schTitle');
+  const schMemo       = document.getElementById('schMemo');
+  const schSaveBtn    = document.getElementById('schSaveBtn');
+  const schCancelBtn  = document.getElementById('schCancelBtn');
+  const scheduleList  = document.getElementById('scheduleList');
+  const scheduleEmptyMsg = document.getElementById('scheduleEmptyMsg');
 
   function rand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
   function makeId() { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
@@ -994,14 +1186,165 @@
     save();
     updateMorningButton();
     showStateNow('morning');
+    // 朝の挨拶のあと、今日の予定があれば知らせる
+    if (todaysSchedules().length > 0) {
+      setTimeout(announceTodaySchedules, 2200);
+    }
+  });
+
+  /* =========================================================
+   * 予定（スケジュール）
+   * ========================================================= */
+  function escHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  // 日付入力(YYYY-MM-DD)と比較するためのゼロ埋め版today
+  function todayISO() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  }
+
+  // '15:00' → '15時' / '15:30' → '15時30分'
+  function fmtTime(t) {
+    const [h, m] = t.split(':');
+    return parseInt(m, 10) === 0 ? `${parseInt(h,10)}時` : `${parseInt(h,10)}時${parseInt(m,10)}分`;
+  }
+
+  function fmtDate(iso) {
+    if (iso === todayISO()) return '今日';
+    const [y, mo, da] = iso.split('-').map(Number);
+    const wd = ['日','月','火','水','木','金','土'][new Date(y, mo-1, da).getDay()];
+    return `${mo}/${da}(${wd})`;
+  }
+
+  function todaysSchedules() {
+    return schedules
+      .filter(s => s.date === todayISO())
+      .sort((a, b) => a.time.localeCompare(b.time));
+  }
+
+  // 今日の予定を吹き出しで知らせる
+  function announceTodaySchedules() {
+    const list = todaysSchedules();
+    if (list.length === 0) return;
+    const s = list[0];
+    let msg = rand(CHAR.scheduleMessages)
+      .replace('{time}', `<strong>${fmtTime(s.time)}</strong>`)
+      .replace('{title}', `<strong>${escHtml(s.title)}</strong>`);
+    if (list.length > 1) msg += `<br>ほか${list.length - 1}件の予定があります📝`;
+    setSpeech(msg);
+    bounceChar();
+  }
+
+  let editingScheduleId = null;
+
+  function openScheduleForm(sched) {
+    scheduleForm.classList.add('open');
+    scheduleToggleBtn.style.display = 'none';
+    if (sched) {
+      editingScheduleId = sched.id;
+      schDate.value  = sched.date;
+      schTime.value  = sched.time;
+      schTitle.value = sched.title;
+      schMemo.value  = sched.memo || '';
+      schSaveBtn.textContent = '更新';
+    } else {
+      editingScheduleId = null;
+      schDate.value  = todayISO();
+      schTime.value  = '';
+      schTitle.value = '';
+      schMemo.value  = '';
+      schSaveBtn.textContent = '保存';
+    }
+  }
+
+  function closeScheduleForm() {
+    scheduleForm.classList.remove('open');
+    scheduleToggleBtn.style.display = 'block';
+    editingScheduleId = null;
+  }
+
+  function renderSchedules() {
+    schedules.sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
+    scheduleList.innerHTML = '';
+    scheduleEmptyMsg.style.display = schedules.length === 0 ? 'block' : 'none';
+    const today = todayISO();
+
+    schedules.forEach(s => {
+      const li = document.createElement('li');
+      li.className = 'schedule-item'
+        + (s.date === today ? ' today-item' : (s.date < today ? ' past' : ''));
+      li.innerHTML = `
+        <div class="sch-info">
+          <div class="sch-when">
+            <span class="sch-date${s.date === today ? ' is-today' : ''}">${fmtDate(s.date)}</span>
+            <span class="sch-time">${s.time}</span>
+          </div>
+          <div class="sch-title">${escHtml(s.title)}</div>
+          ${s.memo ? `<div class="sch-memo">${escHtml(s.memo)}</div>` : ''}
+        </div>
+        <button class="sch-edit" data-id="${s.id}" title="編集">✎</button>
+        <button class="sch-del" data-id="${s.id}" title="削除">×</button>
+      `;
+      scheduleList.appendChild(li);
+    });
+  }
+
+  function saveSchedule() {
+    const date  = schDate.value;
+    const time  = schTime.value;
+    const title = schTitle.value.trim();
+    const memo  = schMemo.value.trim();
+
+    if (!date || !time || !title) {
+      setSpeech('日付・時間・予定名を入力してくださいね😊');
+      return;
+    }
+
+    if (editingScheduleId) {
+      const s = schedules.find(s => s.id === editingScheduleId);
+      if (s) { s.date = date; s.time = time; s.title = title; s.memo = memo; }
+    } else {
+      schedules.push({ id: makeId(), date, time, title, memo });
+    }
+
+    save();
+    renderSchedules();
+    closeScheduleForm();
+
+    if (date === todayISO()) {
+      announceTodaySchedules();
+    } else {
+      setSpeech(`${fmtDate(date)} ${fmtTime(time)}の<strong>${escHtml(title)}</strong>、登録しました♪`);
+    }
+  }
+
+  function deleteSchedule(id) {
+    schedules = schedules.filter(s => s.id !== id);
+    if (editingScheduleId === id) closeScheduleForm();
+    save();
+    renderSchedules();
+  }
+
+  scheduleToggleBtn.addEventListener('click', () => openScheduleForm(null));
+  schSaveBtn.addEventListener('click', saveSchedule);
+  schCancelBtn.addEventListener('click', closeScheduleForm);
+
+  scheduleList.addEventListener('click', e => {
+    const edit = e.target.closest('.sch-edit');
+    const del  = e.target.closest('.sch-del');
+    if (edit) {
+      const s = schedules.find(s => s.id === edit.dataset.id);
+      if (s) openScheduleForm(s);
+    } else if (del) {
+      deleteSchedule(del.dataset.id);
+    }
   });
 
   /* =========================================================
    * タスク描画・操作
    * ========================================================= */
-  function escHtml(s) {
-    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  }
 
   function render() {
     taskListEl.innerHTML = '';
@@ -1027,6 +1370,7 @@
     updateCharacter();
     updateLifetime();
     updateMorningButton();
+    renderSchedules();
   }
 
   function addTask(text) {
@@ -1055,7 +1399,12 @@
     if (!wasDone && task.done) {
       bounceChar();
       const { done, total } = updateProgress();
-      if (done === total && total > 0) shootConfetti();
+      if (done === total && total > 0) {
+        shootConfetti();
+      } else {
+        // 全完了時は perfect 状態のセリフを優先する
+        setSpeech(rand(CHAR.taskDoneMessages));
+      }
       checkEvents();
     }
   }
@@ -1151,6 +1500,11 @@
 
   load();
   render();
+
+  // アプリを開いたとき、今日の予定があれば秘書が知らせる
+  if (!endFlag && todaysSchedules().length > 0) {
+    setTimeout(announceTodaySchedules, 700);
+  }
 })();
 </script>
 </body>
