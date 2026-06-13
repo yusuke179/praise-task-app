@@ -979,8 +979,14 @@
   let shownEvents = [];       // 表示済みイベントの count 一覧
   let lastMorningDate = null; // おはようボタンを押した日
 
+  // 午前5:00を1日の開始時刻とする。
+  // 0:00〜4:59 はまだ「前日」として扱い、5:00を過ぎたら新しい1日になる。
+  // 繰り越し・初回起動・おはよう判定はすべてこの「論理日」を基準にする。
   function todayStr() {
     const d = new Date();
+    if (d.getHours() < 5) {
+      d.setDate(d.getDate() - 1); // 月またぎ・年またぎも自動補正される
+    }
     return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
   }
 
@@ -1173,11 +1179,13 @@
 
   /* =========================================================
    * おはようボタン
-   * 「今日はこれで終了」を押した翌日（=日付が変わったら）再表示。
-   * 同じ日に押したら非表示にする。
+   * 午前5:00を1日の開始とし、5:00を過ぎて初めて開いた日に表示する。
+   * 「今日はこれで終了」を押したかどうかに関係なく、
+   * 翌日5:00を過ぎたら再び表示する（lastMorningDate と論理日を比較）。
+   * 同じ日に一度押したら（lastMorningDate === todayStr()）再表示しない。
    * ========================================================= */
   function updateMorningButton() {
-    const show = lastMorningDate !== todayStr() && !endFlag;
+    const show = lastMorningDate !== todayStr();
     morningSection.style.display = show ? 'block' : 'none';
   }
 
