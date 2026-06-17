@@ -70,10 +70,10 @@
     gap: 12px;
   }
 
-  /* キャラクターを主役に（画像大きめ・吹き出し小さめ） */
+  /* キャラクター70% / 吹き出し30% */
   .char-figure {
-    flex: 0 0 76%;
-    width: 76%;
+    flex: 0 0 70%;
+    width: 70%;
   }
 
   .char-photo {
@@ -85,12 +85,12 @@
   }
 
   .speech-bubble {
-    flex: 0 0 calc(24% - 12px);
-    width: calc(24% - 12px);
+    flex: 0 0 calc(30% - 12px);
+    width: calc(30% - 12px);
     background: linear-gradient(135deg, #fff5f8, #fce4ec);
     border: 2px solid #f8bbd9;
     border-radius: 16px;
-    padding: 8px 8px;
+    padding: 10px 10px;
     position: relative;
     box-shadow: 0 3px 12px rgba(233,30,99,0.1);
     animation: bubblePop 0.35s cubic-bezier(0.34,1.56,0.64,1);
@@ -98,8 +98,8 @@
   }
 
   .speech-text {
-    font-size: 11px;
-    line-height: 1.55;
+    font-size: 12px;
+    line-height: 1.6;
     color: #c2185b;
     font-weight: 500;
     word-break: break-word;
@@ -109,9 +109,9 @@
   @media (max-width: 480px) {
     .character-section { padding: 18px 12px 16px; }
     .char-row { gap: 8px; }
-    .char-figure { flex: 0 0 76%; width: 76%; }
-    .speech-bubble { flex: 0 0 calc(24% - 8px); width: calc(24% - 8px); padding: 7px 7px; }
-    .speech-text { font-size: 10.5px; line-height: 1.5; }
+    .char-figure { flex: 0 0 70%; width: 70%; }
+    .speech-bubble { flex: 0 0 calc(30% - 8px); width: calc(30% - 8px); padding: 8px 8px; }
+    .speech-text { font-size: 11px; line-height: 1.55; }
   }
 
   .char-photo.bounce {
@@ -569,89 +569,6 @@
   }
   .event-remain strong { color: #e91e63; font-weight: 700; }
 
-  /* ===== 本日の達成 ===== */
-  .today-achieve {
-    margin-top: 12px;
-    background: linear-gradient(135deg, #fff5f8, #fce4ec);
-    border: 1.5px solid #f8bbd9;
-    border-radius: 16px;
-    padding: 10px 16px;
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-    gap: 8px;
-  }
-  .today-achieve .ta-label { font-size: 13px; color: #e91e63; font-weight: 600; }
-  .today-achieve .ta-num   { font-size: 22px; color: #e91e63; font-weight: 800; line-height: 1; }
-  .today-achieve .ta-unit  { font-size: 13px; color: #f06292; font-weight: 600; }
-
-  /* ===== 優先タスク用 ===== */
-  .btn-star {
-    width: 48px;
-    height: 48px;
-    flex-shrink: 0;
-    border-radius: 28px;
-    border: 2px solid #f8bbd9;
-    background: white;
-    color: #f48fb1;
-    font-size: 22px;
-    line-height: 1;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-  }
-  .btn-star:hover { border-color: #e91e63; }
-  .btn-star.on {
-    background: linear-gradient(135deg, #ffe082, #ffb300);
-    border-color: #ffb300;
-    color: #fff;
-    box-shadow: 0 3px 10px rgba(255,167,38,0.4);
-  }
-
-  .task-item.priority {
-    border-color: #ffd54f;
-    background: linear-gradient(135deg, #fffaf0, #fff3d6);
-  }
-  .task-item.priority.done {
-    background: linear-gradient(135deg, #fff5f8, #fce4ec);
-    border-color: #f48fb1;
-  }
-
-  .task-star {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 17px;
-    line-height: 1;
-    padding: 3px 4px;
-    border-radius: 50%;
-    color: #f0c040;
-    flex-shrink: 0;
-    transition: all 0.15s;
-  }
-  .task-star.off { color: #f0d6e2; }
-  .task-star:hover { background: #fff3d6; }
-
-  .task-divider {
-    height: 0;
-    border-top: 1.5px dashed #f8bbd9;
-    margin: 4px 2px;
-    list-style: none;
-  }
-
-  .done-block { margin-top: 18px; }
-  .done-title {
-    font-size: 11px;
-    color: #c79bb0;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-    padding-left: 2px;
-  }
-
   .footer-note {
     text-align: center;
     color: #f8bbd9;
@@ -830,19 +747,11 @@
     <div class="progress-bar-bg">
       <div class="progress-bar-fill" id="progressFill"></div>
     </div>
-
-    <!-- 本日の達成 -->
-    <div class="today-achieve">
-      <span class="ta-label">本日の達成</span>
-      <span class="ta-num" id="todayDone">0</span>
-      <span class="ta-unit">件</span>
-    </div>
   </div>
 
   <!-- 入力 -->
   <div class="input-section">
     <div class="input-row">
-      <button class="btn-star" id="starBtn" title="優先タスクにする">☆</button>
       <input type="text" class="task-input" id="taskInput"
              placeholder="タスクを入力して Enter または ＋" maxlength="100">
       <button class="btn-add" id="addBtn" title="追加">＋</button>
@@ -851,14 +760,9 @@
 
   <!-- タスク一覧 -->
   <div class="task-section">
-    <div class="section-title">未完了タスク</div>
-    <ul class="task-list" id="taskListActive"></ul>
+    <div class="section-title">タスク一覧</div>
+    <ul class="task-list" id="taskList"></ul>
     <p class="empty-msg" id="emptyMsg">タスクを追加してみましょう♪</p>
-
-    <div class="done-block" id="doneBlock" style="display:none">
-      <div class="done-title">本日完了</div>
-      <ul class="task-list" id="taskListDone"></ul>
-    </div>
   </div>
 
   <!-- 予定 -->
@@ -958,87 +862,56 @@
   const CHARACTERS = {
     secretary: {
       name: '秘書',
-      // 状態遷移順: morning → normal/working → support → cheer → perfect → tired
-      // thinking / working は新規追加の画像（thinking.png / working.png）を使用
+      // 状態遷移順: morning → normal → support → cheer → perfect → tired
       states: {
         morning: {
           image: 'morning.png',
           messages: [
             'おはようございます☀️',
-            '今日も無理せずいきましょう😊',
-            'まずは一つ終わらせてみましょう✨',
-            '良い一日にしましょう♪',
-            '焦らず進めていきましょう☕',
+            '今日はどんな一日にしましょうか？',
+            '無理せずいきましょうね♪',
+            '今日も無理せず頑張りましょう♪',
+            '小さな一歩でも前進です😊',
           ],
         },
         normal: {
           image: 'normal.png',
           messages: [
-            '順調ですね😊',
-            '少しずつ進んでいますね✨',
-            '今日も頑張っていますね♪',
-            'コツコツが一番です☕',
-            'いい感じですよ😊',
-          ],
-        },
-        thinking: {
-          image: 'thinking.png',
-          messages: [
-            '今日の予定を確認しておきましょう😊',
-            '優先タスクがありますよ✨',
-            'まずは発注から始めましょう♪',
-            '今日の流れを整理してみましょう☕',
-            '大事な予定がありますね😊',
-          ],
-        },
-        working: {
-          image: 'working.png',
-          messages: [
-            '私も作業していますので一緒に頑張りましょう😊',
-            '順調に進んでいますね✨',
-            '今日も良いペースです♪',
-            '一歩ずつ進めていきましょう☕',
-            '応援しています😊',
+            '今日もおつかれさまです♪',
+            '一緒に進めていきましょう😊',
+            '今日のタスクを追加してみましょう！',
           ],
         },
         support: {
           image: 'support.png',
           messages: [
-            '少し休憩しませんか？☕',
-            'ここまで十分頑張っていますよ😊',
-            '無理しすぎないでくださいね✨',
-            '温かい飲み物でもどうですか♪',
-            '休みながら進めましょう☕',
+            '無理せず進めてくださいね☕',
+            '焦らなくても大丈夫ですよ♪',
+            'いいペースですよ😊',
           ],
         },
         cheer: {
           image: 'happy.png',
           messages: [
             'あと少しです✨',
-            'いいペースですよ😊',
-            'その調子です♪',
-            '最後まで応援しています❤️',
-            'ゴールが見えてきましたね✨',
+            '頑張ってくださいね💪',
+            'その調子ですよ〜😊',
           ],
         },
         perfect: {
           image: 'perfect.png',
           messages: [
             '全タスク完了です🎉',
-            '素晴らしいです✨',
-            '今日は完璧ですね😊',
-            '本当にお疲れさまでした🌸',
-            '達成おめでとうございます🎊',
+            '本当に素晴らしいです✨',
+            '100点満点です！🎉',
           ],
         },
         tired: {
           image: 'tired.png',
           messages: [
             '今日もお疲れさまでした🌙',
-            'ゆっくり休んでくださいね😊',
-            'また明日お待ちしています♪',
-            '残りは明日に回しましょう☕',
-            '頑張りすぎないでくださいね✨',
+            '残りは明日に回しましょうね',
+            'ゆっくり休んでください♪',
           ],
         },
       },
@@ -1086,7 +959,7 @@
     if (ctx.pct === 100) return 'perfect';
     if (ctx.pct >= 80) return 'cheer';
     if (ctx.pct >= 50) return 'support';
-    return 'working';
+    return 'normal';
   }
 
   /* =========================================================
@@ -1150,17 +1023,12 @@
       totalDone = 0; shownEvents = []; lastMorningDate = null;
     }
 
-    // 翌朝（論理日が変わった）の繰り越し処理:
-    //   ・未完了タスクのみ繰り越す
-    //   ・完了済みタスクはリセット（消す）
-    // 「今日はこれで終了」を押したかどうかに関係なく、日付が変われば実行する。
-    const isNewDay = lastOpenDate !== todayStr();
-    if (isNewDay) {
+    if (lastEndDate && lastEndDate !== todayStr()) {
       endFlag = false;
       tasks = tasks.filter(t => !t.done);
     }
 
-    isFirstOpenToday = isNewDay;
+    isFirstOpenToday = lastOpenDate !== todayStr();
     lastOpenDate = todayStr();
     save();
   }
@@ -1170,11 +1038,7 @@
    * ========================================================= */
   const taskInput    = document.getElementById('taskInput');
   const addBtn       = document.getElementById('addBtn');
-  const starBtn      = document.getElementById('starBtn');
-  const taskListActive = document.getElementById('taskListActive');
-  const taskListDone   = document.getElementById('taskListDone');
-  const doneBlock      = document.getElementById('doneBlock');
-  const todayDoneEl    = document.getElementById('todayDone');
+  const taskListEl   = document.getElementById('taskList');
   const emptyMsg     = document.getElementById('emptyMsg');
   const progressFill = document.getElementById('progressFill');
   const progressDet  = document.getElementById('progressDetail');
@@ -1252,23 +1116,14 @@
     }
   }
 
-  // 状態を即時に切り替える。html を渡すとセリフを固定、省略でランダム。
-  function showState(stateName, html) {
+  function showStateNow(stateName) {
     const state = CHAR.states[stateName];
     if (!state) return;
     charPhoto.src = state.image;
-    setSpeech(html != null ? html : rand(state.messages));
+    setSpeech(rand(state.messages));
     currentState = stateName;
     bounceChar();
   }
-
-  function showStateNow(stateName) { showState(stateName); }
-
-  // thinking.png / working.png などがまだ無い場合でも壊れないよう、
-  // 画像読み込みに失敗したら normal.png にフォールバックする。
-  charPhoto.addEventListener('error', () => {
-    if (charPhoto.getAttribute('src') !== 'normal.png') charPhoto.src = 'normal.png';
-  });
 
   /* =========================================================
    * 累計達成数・次イベントまでの進捗
@@ -1339,39 +1194,11 @@
     save();
     updateMorningButton();
     showStateNow('morning');
-
-    // 朝の挨拶のあと、優先タスク → 今日の予定 の順に知らせる
-    let delay = 2200;
-    const priCount = priorityTasks().length;
-    if (priCount > 0) {
-      setTimeout(() => announcePriority(priCount), delay);
-      delay += 2600;
-    }
+    // 朝の挨拶のあと、今日の予定があれば知らせる
     if (todaysSchedules().length > 0) {
-      setTimeout(announceTodaySchedules, delay);
+      setTimeout(announceTodaySchedules, 2200);
     }
   });
-
-  /* =========================================================
-   * 優先タスク
-   * ========================================================= */
-  // 未完了の優先タスク（作成順）
-  function priorityTasks() {
-    return tasks.filter(t => t.priority && !t.done);
-  }
-
-  // 朝に優先タスクの件数を知らせる（thinking 状態）
-  function announcePriority(n) {
-    showState('thinking', `今日の優先タスクは<strong>${n}件</strong>ありますよ😊`);
-  }
-
-  function togglePriority(id) {
-    const task = tasks.find(t => t.id === id);
-    if (!task) return;
-    task.priority = !task.priority;
-    save();
-    render();
-  }
 
   /* =========================================================
    * 予定（スケジュール）
@@ -1414,7 +1241,8 @@
       .replace('{time}', `<strong>${fmtTime(s.time)}</strong>`)
       .replace('{title}', `<strong>${escHtml(s.title)}</strong>`);
     if (list.length > 1) msg += `<br>ほか${list.length - 1}件の予定があります📝`;
-    showState('thinking', msg);
+    setSpeech(msg);
+    bounceChar();
   }
 
   let editingScheduleId = null;
@@ -1496,7 +1324,7 @@
     if (date === todayISO()) {
       announceTodaySchedules();
     } else {
-      showState('thinking', `${fmtDate(date)} ${fmtTime(time)}の<strong>${escHtml(title)}</strong>、登録しました♪`);
+      setSpeech(`${fmtDate(date)} ${fmtTime(time)}の<strong>${escHtml(title)}</strong>、登録しました♪`);
     }
   }
 
@@ -1526,48 +1354,25 @@
    * タスク描画・操作
    * ========================================================= */
 
-  function buildTaskLi(task) {
-    const li = document.createElement('li');
-    li.className = 'task-item'
-      + (task.done ? ' done' : '')
-      + (task.priority ? ' priority' : '');
-    li.innerHTML = `
-      <div class="task-check" data-id="${task.id}">
-        <svg class="check-icon" width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M2 7L5.5 10.5L12 3.5" stroke="white" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <span class="task-text">${task.priority && !task.done ? '⭐ ' : ''}${escHtml(task.text)}</span>
-      <button class="task-star ${task.priority ? 'on' : 'off'}" data-act="star" data-id="${task.id}" title="優先タスク切替">${task.priority ? '⭐' : '☆'}</button>
-      <button class="task-del" data-id="${task.id}" title="削除">×</button>
-    `;
-    return li;
-  }
-
   function render() {
-    taskListActive.innerHTML = '';
-    taskListDone.innerHTML = '';
+    taskListEl.innerHTML = '';
+    emptyMsg.style.display = tasks.length === 0 ? 'block' : 'none';
 
-    // 未完了: 優先タスク（作成順）→ 区切り → 通常タスク（作成順）
-    const active = tasks.filter(t => !t.done);
-    const pri    = active.filter(t => t.priority);
-    const normal = active.filter(t => !t.priority);
+    tasks.forEach(task => {
+      const li = document.createElement('li');
+      li.className = 'task-item' + (task.done ? ' done' : '');
 
-    pri.forEach(t => taskListActive.appendChild(buildTaskLi(t)));
-    if (pri.length > 0 && normal.length > 0) {
-      const divider = document.createElement('li');
-      divider.className = 'task-divider';
-      taskListActive.appendChild(divider);
-    }
-    normal.forEach(t => taskListActive.appendChild(buildTaskLi(t)));
-
-    // 本日完了
-    const done = tasks.filter(t => t.done);
-    done.forEach(t => taskListDone.appendChild(buildTaskLi(t)));
-    doneBlock.style.display = done.length > 0 ? 'block' : 'none';
-
-    emptyMsg.style.display = active.length === 0 ? 'block' : 'none';
-    todayDoneEl.textContent = done.length;
+      li.innerHTML = `
+        <div class="task-check" data-id="${task.id}">
+          <svg class="check-icon" width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M2 7L5.5 10.5L12 3.5" stroke="white" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="task-text">${escHtml(task.text)}</span>
+        <button class="task-del" data-id="${task.id}" title="削除">×</button>
+      `;
+      taskListEl.appendChild(li);
+    });
 
     updateProgress();
     updateCharacter();
@@ -1576,10 +1381,10 @@
     renderSchedules();
   }
 
-  function addTask(text, priority) {
+  function addTask(text) {
     const t = text.trim();
     if (!t) return;
-    tasks.push({ id: makeId(), text: t, done: false, priority: !!priority });
+    tasks.push({ id: makeId(), text: t, done: false });
     save();
     render();
   }
@@ -1618,42 +1423,24 @@
     render();
   }
 
-  function onTaskListClick(e) {
+  taskListEl.addEventListener('click', e => {
     const check = e.target.closest('.task-check');
-    const star  = e.target.closest('.task-star');
     const del   = e.target.closest('.task-del');
-    if (star) togglePriority(star.dataset.id);
-    else if (check) toggleTask(check.dataset.id);
+    if (check) toggleTask(check.dataset.id);
     else if (del) deleteTask(del.dataset.id);
-  }
-  taskListActive.addEventListener('click', onTaskListClick);
-  taskListDone.addEventListener('click', onTaskListClick);
-
-  // 入力中タスクを優先にするかどうかのトグル
-  let newPriority = false;
-  function updateStarBtn() {
-    starBtn.classList.toggle('on', newPriority);
-    starBtn.textContent = newPriority ? '⭐' : '☆';
-  }
-  starBtn.addEventListener('click', () => {
-    newPriority = !newPriority;
-    updateStarBtn();
   });
 
-  function commitNewTask() {
-    addTask(taskInput.value, newPriority);
-    taskInput.value = '';
-    newPriority = false;
-    updateStarBtn();
-  }
-
   addBtn.addEventListener('click', () => {
-    commitNewTask();
+    addTask(taskInput.value);
+    taskInput.value = '';
     taskInput.focus();
   });
 
   taskInput.addEventListener('keydown', e => {
-    if (e.key === 'Enter') commitNewTask();
+    if (e.key === 'Enter') {
+      addTask(taskInput.value);
+      taskInput.value = '';
+    }
   });
 
   /* =========================================================
