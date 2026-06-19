@@ -94,20 +94,20 @@
     pointer-events: none;
   }
 
-  /* PC: 左に画像・右に吹き出し（重ねない／flexで横並び） */
+  /* 秘書キャラクターが主役：画像を上に大きく・吹き出しは下（縦並び） */
   .hero-char {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 18px;
+    gap: 16px;
   }
 
-  /* 秘書さん画像を大きく（左側） */
+  /* 秘書さん画像を主役として大きく表示（縦横比維持・全体が見える） */
   .char-photo {
-    flex: 0 0 65%;
-    width: 65%;
-    max-width: 450px;
+    flex: 0 0 auto;
+    width: 90%;
+    max-width: 560px;
     height: auto;
     display: block;
     object-fit: contain;
@@ -115,11 +115,14 @@
     transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
   }
 
-  /* 吹き出し（右側・画像には重ねない） */
+  /* 吹き出し（画像の下に表示・重ねない） */
   .speech-bubble {
     position: relative;
-    flex: 1 1 auto;
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 560px;
     min-width: 0;
+    text-align: center;
     background: linear-gradient(135deg, #fff7fa, #fce4ec);
     border: 2px solid var(--pink-line);
     border-radius: 18px;
@@ -136,56 +139,31 @@
   }
   .speech-text strong { color: var(--pink); font-weight: 800; }
 
-  /* PC: しっぽは左向き（画像の方を指す） */
+  /* しっぽは上向き（上の画像を指す） */
   .speech-bubble::before {
     content: '';
     position: absolute;
-    top: 50%; left: -11px;
-    transform: translateY(-50%);
+    top: -11px; left: 50%;
+    transform: translateX(-50%);
     border: 11px solid transparent;
-    border-right-color: var(--pink-line);
-    border-left: 0;
+    border-bottom-color: var(--pink-line);
+    border-top: 0;
   }
   .speech-bubble::after {
     content: '';
     position: absolute;
-    top: 50%; left: -8px;
-    transform: translateY(-50%);
+    top: -8px; left: 50%;
+    transform: translateX(-50%);
     border: 8px solid transparent;
-    border-right-color: #fff7fa;
-    border-left: 0;
+    border-bottom-color: #fff7fa;
+    border-top: 0;
   }
 
-  /* スマホ: 上に画像・下に吹き出し（縦並び） */
+  /* スマホ: 画像を画面幅いっぱい近くまで使う */
   @media (max-width: 480px) {
-    .hero-char {
-      flex-direction: column;
-      gap: 14px;
-    }
     .char-photo {
-      flex: 0 0 auto;
-      width: 92%;
-      max-width: 480px;
-    }
-    .speech-bubble {
-      flex: 0 0 auto;
-      width: 100%;
-      text-align: center;
-    }
-    /* しっぽは上向き（上の画像を指す） */
-    .speech-bubble::before {
-      top: -11px; left: 50%;
-      transform: translateX(-50%);
-      border: 11px solid transparent;
-      border-bottom-color: var(--pink-line);
-      border-top: 0;
-    }
-    .speech-bubble::after {
-      top: -8px; left: 50%;
-      transform: translateX(-50%);
-      border: 8px solid transparent;
-      border-bottom-color: #fff7fa;
-      border-top: 0;
+      width: 88%;
+      max-width: 460px;
     }
   }
 
