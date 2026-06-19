@@ -3,41 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>秘書ダッシュボード</title>
+<title>秘書タスク管理</title>
 
 <!-- iOS Safari: ホーム画面に追加対応 -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="秘書ダッシュボード">
+<meta name="apple-mobile-web-app-title" content="秘書タスク管理">
 <link rel="apple-touch-icon" href="icon.png">
 <link rel="icon" href="icon.png">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --pink:        #e91e63;
-    --pink-soft:   #f48fb1;
-    --pink-line:   #f8bbd9;
-    --pink-bg:     #fce4ec;
-    --pink-bg2:    #fff5f8;
-    --pink-text:   #c2185b;
-    --pink-sub:    #f06292;
-    --gold:        #ffb300;
-    --gold-soft:   #ffd54f;
-    --ink:         #5a4750;
-    --card-shadow: 0 6px 20px rgba(255, 150, 180, 0.16);
-  }
-
   body {
     font-family: 'Hiragino Sans', 'Yu Gothic UI', -apple-system, sans-serif;
-    background: linear-gradient(165deg, #fff5f7 0%, #fce4ec 55%, #fff0f3 100%);
-    background-attachment: fixed;
+    background: linear-gradient(160deg, #fff5f7 0%, #fce4ec 60%, #fff0f3 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding: 0 0 56px;
-    color: var(--ink);
+    padding: 0 0 48px;
   }
 
   .app {
@@ -46,11 +30,9 @@
     min-height: 100vh;
   }
 
-  /* =========================================================
-   * 上部：おはようボタン
-   * ========================================================= */
+  /* ===== Morning button ===== */
   .morning-section {
-    padding: 16px 20px 0;
+    padding: 14px 24px 0;
   }
 
   .btn-morning {
@@ -58,354 +40,217 @@
     background: linear-gradient(135deg, #ffe082, #ffb74d);
     color: #7a4a00;
     border: none;
-    border-radius: 30px;
-    padding: 15px;
-    font-size: 16px;
+    border-radius: 28px;
+    padding: 14px;
+    font-size: 15px;
     font-weight: 700;
     font-family: inherit;
     cursor: pointer;
-    box-shadow: 0 6px 18px rgba(255, 167, 38, 0.35);
+    box-shadow: 0 4px 14px rgba(255, 167, 38, 0.35);
     letter-spacing: 0.03em;
     transition: transform 0.15s, box-shadow 0.15s;
     animation: taskSlideIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
   }
-  .btn-morning:hover { transform: scale(1.02); box-shadow: 0 8px 22px rgba(255,167,38,0.45); }
+  .btn-morning:hover { transform: scale(1.02); box-shadow: 0 6px 18px rgba(255,167,38,0.45); }
   .btn-morning:active { transform: scale(0.97); }
 
-  /* =========================================================
-   * 上部：秘書さんヒーロー（主役）
-   * ========================================================= */
-  .hero {
-    position: relative;
-    background: linear-gradient(165deg, #ffffff 0%, #fff0f5 100%);
-    border-radius: 0 0 40px 40px;
-    padding: 22px 22px 24px;
-    box-shadow: 0 8px 26px rgba(255, 150, 180, 0.18);
-    overflow: hidden;
-  }
-  /* やわらかい装飾の光 */
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: -60px; right: -50px;
-    width: 180px; height: 180px;
-    background: radial-gradient(circle, rgba(248,187,217,0.4), transparent 70%);
-    border-radius: 50%;
-    pointer-events: none;
+  /* ===== Character Header ===== */
+  .character-section {
+    background: white;
+    border-radius: 0 0 36px 36px;
+    padding: 22px 18px 20px;
+    box-shadow: 0 6px 24px rgba(255, 150, 180, 0.14);
   }
 
-  .hero-char {
-    position: relative;
+  .char-row {
     display: flex;
+    flex-direction: row;
+    align-items: center;
     justify-content: center;
-    align-items: flex-end;
+    gap: 12px;
   }
 
-  /* 秘書さん画像を大きく */
+  /* キャラクターを主役に（画像大きめ・吹き出し小さめ） */
+  .char-figure {
+    flex: 0 0 76%;
+    width: 76%;
+  }
+
   .char-photo {
-    width: 66%;
-    max-width: 250px;
+    width: 100%;
     height: auto;
     display: block;
     object-fit: contain;
-    filter: drop-shadow(0 8px 16px rgba(233,30,99,0.12));
     transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
   }
 
-  /* 吹き出しは小さめ・右上にふわっと */
   .speech-bubble {
-    position: absolute;
-    top: 4px;
-    right: 0;
-    max-width: 46%;
-    background: linear-gradient(135deg, #fff7fa, #fce4ec);
-    border: 2px solid var(--pink-line);
-    border-radius: 18px;
-    padding: 10px 12px;
-    box-shadow: 0 4px 14px rgba(233,30,99,0.12);
+    flex: 0 0 calc(24% - 12px);
+    width: calc(24% - 12px);
+    background: linear-gradient(135deg, #fff5f8, #fce4ec);
+    border: 2px solid #f8bbd9;
+    border-radius: 16px;
+    padding: 8px 8px;
+    position: relative;
+    box-shadow: 0 3px 12px rgba(233,30,99,0.1);
     animation: bubblePop 0.35s cubic-bezier(0.34,1.56,0.64,1);
-    z-index: 2;
+    text-align: center;
   }
+
   .speech-text {
-    font-size: 12px;
-    line-height: 1.6;
-    color: var(--pink-text);
-    font-weight: 600;
+    font-size: 11px;
+    line-height: 1.55;
+    color: #c2185b;
+    font-weight: 500;
     word-break: break-word;
   }
-  .speech-text strong { color: var(--pink); font-weight: 800; }
+  .speech-text strong { color: #e91e63; font-weight: 700; }
 
-  /* 吹き出しのしっぽ（下向き：秘書さんを指す） */
-  .speech-bubble::before {
-    content: '';
-    position: absolute;
-    bottom: -11px; left: 26px;
-    border: 11px solid transparent;
-    border-top-color: var(--pink-line);
-    border-bottom: 0;
-  }
-  .speech-bubble::after {
-    content: '';
-    position: absolute;
-    bottom: -8px; left: 29px;
-    border: 8px solid transparent;
-    border-top-color: #fff7fa;
-    border-bottom: 0;
+  @media (max-width: 480px) {
+    .character-section { padding: 18px 12px 16px; }
+    .char-row { gap: 8px; }
+    .char-figure { flex: 0 0 76%; width: 76%; }
+    .speech-bubble { flex: 0 0 calc(24% - 8px); width: calc(24% - 8px); padding: 7px 7px; }
+    .speech-text { font-size: 10.5px; line-height: 1.5; }
   }
 
-  .char-photo.bounce { animation: charBounce 0.45s cubic-bezier(0.34,1.56,0.64,1); }
+  .char-photo.bounce {
+    animation: charBounce 0.45s cubic-bezier(0.34,1.56,0.64,1);
+  }
 
   @keyframes charBounce {
     0%   { transform: scale(1) translateY(0); }
-    40%  { transform: scale(1.04) translateY(-6px); }
+    40%  { transform: scale(1.04) translateY(-5px); }
     70%  { transform: scale(0.98) translateY(2px); }
     100% { transform: scale(1) translateY(0); }
   }
+
   @keyframes bubblePop {
     from { opacity: 0; transform: scale(0.85) translateY(6px); }
     to   { opacity: 1; transform: scale(1) translateY(0); }
   }
 
-  /* 挨拶＋クイックサマリー（予定・優先タスク数） */
-  .hero-greeting {
-    text-align: center;
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--pink-text);
-    margin-top: 14px;
+  .speech-bubble::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -11px;
+    transform: translateY(-50%);
+    border: 11px solid transparent;
+    border-right-color: #f8bbd9;
+    border-left: 0;
   }
-  .hero-summary {
+  .speech-bubble::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -8px;
+    transform: translateY(-50%);
+    border: 9px solid transparent;
+    border-right-color: #fff5f8;
+    border-left: 0;
+  }
+
+  /* ===== Progress ===== */
+  .progress-section {
+    padding: 20px 24px 0;
+  }
+
+  .progress-header {
     display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 12px;
-    flex-wrap: wrap;
-  }
-  .hero-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    background: #fff;
-    border: 1.5px solid var(--pink-line);
-    border-radius: 20px;
-    padding: 6px 13px;
-    font-size: 12.5px;
-    font-weight: 700;
-    color: var(--pink);
-    box-shadow: 0 2px 8px rgba(255,150,180,0.12);
-  }
-  .hero-chip .chip-ico { font-size: 14px; }
-  .hero-chip b { font-size: 14px; }
-
-  /* =========================================================
-   * 中段：ダッシュボードカード
-   * ========================================================= */
-  .dashboard {
-    padding: 20px 16px 6px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 13px;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
   }
 
-  .dash-card {
-    background: #fff;
-    border-radius: 24px;
-    padding: 16px 16px 17px;
-    box-shadow: var(--card-shadow);
-    border: 1.5px solid #fff;
-    animation: taskSlideIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
-  }
-  .dash-card.wide { grid-column: 1 / -1; }
+  .progress-label { font-size: 13px; color: #e91e63; font-weight: 600; }
+  .progress-detail { font-size: 12px; color: #f06292; }
 
-  .dc-head {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    margin-bottom: 10px;
-  }
-  .dc-ico {
-    width: 30px; height: 30px;
-    flex-shrink: 0;
-    border-radius: 11px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
-    background: linear-gradient(135deg, var(--pink-bg2), var(--pink-bg));
-  }
-  .dc-label {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--pink-sub);
-    letter-spacing: 0.02em;
-  }
-
-  .dc-value {
-    font-size: 30px;
-    font-weight: 800;
-    color: var(--pink);
-    line-height: 1.1;
-  }
-  .dc-value .unit { font-size: 14px; font-weight: 700; margin-left: 3px; color: var(--pink-sub); }
-
-  /* 今日の予定カード本文 */
-  .dc-schedule {
-    font-size: 14px;
-    line-height: 1.55;
-    color: var(--ink);
-    font-weight: 600;
-    word-break: break-word;
-  }
-  .dc-schedule strong { color: var(--pink); font-weight: 800; }
-  .dc-schedule .none { color: var(--pink-line); font-weight: 600; }
-  .dc-schedule .more {
-    display: inline-block;
-    margin-left: 6px;
-    font-size: 11.5px;
-    color: var(--pink-sub);
-    font-weight: 700;
-  }
-
-  /* 累計カード（ゴールド調アクセント） */
-  .dash-card.gold .dc-ico { background: linear-gradient(135deg, #fff6db, #ffe9a8); }
-  .dash-card.gold .dc-value { color: #d98a00; }
-
-  /* 次のイベントまで */
-  .event-bar-bg {
-    background: var(--pink-bg);
+  .progress-bar-bg {
+    background: #fce4ec;
     border-radius: 10px;
-    height: 13px;
+    height: 12px;
     overflow: hidden;
-    margin: 4px 0 9px;
   }
-  .event-bar-fill {
+
+  .progress-bar-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--gold-soft), var(--gold));
+    background: linear-gradient(90deg, #f48fb1, #e91e63);
     border-radius: 10px;
     width: 0%;
     transition: width 0.55s cubic-bezier(0.4,0,0.2,1);
     position: relative;
   }
-  .event-bar-fill::after {
+  .progress-bar-fill::after {
     content: '';
-    position: absolute; inset: 0;
-    background: linear-gradient(90deg, transparent 60%, rgba(255,255,255,0.4));
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 60%, rgba(255,255,255,0.35));
     border-radius: 10px;
   }
-  .event-remain { font-size: 12.5px; color: var(--pink-sub); font-weight: 600; }
-  .event-remain strong { color: #d98a00; font-weight: 800; }
 
-  /* =========================================================
-   * 下段：パネル共通
-   * ========================================================= */
-  .panel {
-    background: #fff;
-    margin: 16px 16px 0;
-    border-radius: 26px;
-    padding: 18px 18px 20px;
-    box-shadow: var(--card-shadow);
+  /* ===== Input ===== */
+  .input-section {
+    padding: 18px 24px 10px;
   }
 
-  .panel-title {
-    font-size: 12px;
-    color: var(--pink-sub);
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    margin-bottom: 13px;
-    padding-left: 2px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  /* ===== タスク入力 ===== */
   .input-row {
     display: flex;
-    gap: 9px;
-    align-items: center;
-  }
-  .btn-star {
-    width: 48px; height: 48px;
-    flex-shrink: 0;
-    border-radius: 16px;
-    border: 2px solid var(--pink-line);
-    background: #fff;
-    color: var(--pink-soft);
-    font-size: 22px;
-    line-height: 1;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.2s;
-  }
-  .btn-star:hover { border-color: var(--pink); }
-  .btn-star.on {
-    background: linear-gradient(135deg, #ffe082, var(--gold));
-    border-color: var(--gold);
-    color: #fff;
-    box-shadow: 0 3px 10px rgba(255,167,38,0.4);
+    gap: 10px;
   }
 
   .task-input {
     flex: 1;
-    min-width: 0;
-    border: 2px solid var(--pink-line);
-    border-radius: 16px;
-    padding: 13px 16px;
-    font-size: 15px;
+    border: 2px solid #f8bbd9;
+    border-radius: 28px;
+    padding: 12px 20px;
+    font-size: 14px;
     font-family: inherit;
-    color: var(--ink);
+    color: #444;
     outline: none;
-    background: #fff;
+    background: white;
     transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .task-input:focus { border-color: var(--pink); box-shadow: 0 0 0 3px rgba(233,30,99,0.1); }
-  .task-input::placeholder { color: var(--pink-soft); }
+
+  .task-input:focus {
+    border-color: #e91e63;
+    box-shadow: 0 0 0 3px rgba(233,30,99,0.1);
+  }
+  .task-input::placeholder { color: #f48fb1; }
 
   .btn-add {
-    background: linear-gradient(135deg, var(--pink-soft), var(--pink));
-    color: #fff;
+    background: linear-gradient(135deg, #f48fb1, #e91e63);
+    color: white;
     border: none;
-    border-radius: 16px;
-    width: 48px; height: 48px;
-    font-size: 26px;
+    border-radius: 28px;
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
     line-height: 1;
     font-weight: 700;
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(233,30,99,0.3);
     transition: transform 0.15s, box-shadow 0.15s;
-    display: flex; align-items: center; justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
   }
-  .btn-add:hover { transform: scale(1.07); box-shadow: 0 6px 18px rgba(233,30,99,0.4); }
+  .btn-add:hover { transform: scale(1.08); box-shadow: 0 6px 18px rgba(233,30,99,0.4); }
   .btn-add:active { transform: scale(0.94); }
 
-  /* スリム進捗バー */
-  .mini-progress { margin-top: 16px; }
-  .mini-progress-head {
-    display: flex; justify-content: space-between; align-items: baseline;
-    margin-bottom: 7px;
-  }
-  .mini-progress-head .lbl { font-size: 12px; color: var(--pink); font-weight: 700; }
-  .mini-progress-head .det { font-size: 12px; color: var(--pink-sub); font-weight: 600; }
-  .progress-bar-bg {
-    background: var(--pink-bg);
-    border-radius: 10px;
-    height: 11px;
-    overflow: hidden;
-  }
-  .progress-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--pink-soft), var(--pink));
-    border-radius: 10px;
-    width: 0%;
-    transition: width 0.55s cubic-bezier(0.4,0,0.2,1);
+  /* ===== Tasks ===== */
+  .task-section {
+    padding: 10px 24px;
   }
 
-  /* ===== タスク一覧 ===== */
-  .sub-title {
+  .section-title {
     font-size: 11px;
-    color: var(--pink-sub);
-    font-weight: 800;
+    color: #f06292;
+    font-weight: 700;
     letter-spacing: 0.1em;
-    margin-bottom: 11px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
     padding-left: 2px;
   }
 
@@ -413,158 +258,149 @@
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 9px;
+    gap: 8px;
   }
 
   .task-item {
-    background: var(--pink-bg2);
+    background: white;
     border-radius: 18px;
-    padding: 13px 15px;
+    padding: 13px 16px;
     display: flex;
     align-items: center;
     gap: 12px;
+    box-shadow: 0 2px 10px rgba(255,150,180,0.1);
     border: 1.5px solid transparent;
     transition: border-color 0.2s, background 0.2s;
     animation: taskSlideIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
   }
+
   @keyframes taskSlideIn {
     from { opacity: 0; transform: translateY(-10px) scale(0.94); }
     to   { opacity: 1; transform: translateY(0) scale(1); }
   }
-  .task-item:hover { border-color: var(--pink-line); }
+
+  .task-item:hover { border-color: #f8bbd9; }
+
   .task-item.done {
     background: linear-gradient(135deg, #fff5f8, #fce4ec);
-    border-color: var(--pink-soft);
+    border-color: #f48fb1;
   }
 
   .task-check {
-    width: 26px; height: 26px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
-    border: 2.5px solid var(--pink-soft);
-    display: flex; align-items: center; justify-content: center;
+    border: 2.5px solid #f48fb1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     flex-shrink: 0;
-    background: #fff;
+    background: white;
     transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
   }
-  .task-check:hover { border-color: var(--pink); transform: scale(1.1); }
+
+  .task-check:hover { border-color: #e91e63; transform: scale(1.1); }
+
   .task-item.done .task-check {
-    background: linear-gradient(135deg, var(--pink-soft), var(--pink));
-    border-color: var(--pink);
+    background: linear-gradient(135deg, #f48fb1, #e91e63);
+    border-color: #e91e63;
     transform: scale(1.05);
   }
+
   .task-check .check-icon { display: none; }
   .task-item.done .task-check .check-icon { display: block; }
 
   .task-text {
     flex: 1;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 1.5;
-    color: var(--ink);
+    color: #444;
     word-break: break-word;
     transition: color 0.2s;
   }
-  .task-item.done .task-text { text-decoration: line-through; color: var(--pink-sub); }
-
-  .task-star {
-    background: none; border: none; cursor: pointer;
-    font-size: 18px; line-height: 1;
-    padding: 3px 4px; border-radius: 50%;
-    color: #f0c040; flex-shrink: 0;
-    transition: all 0.15s;
-  }
-  .task-star.off { color: #f0d6e2; }
-  .task-star:hover { background: #fff3d6; }
+  .task-item.done .task-text { text-decoration: line-through; color: #f06292; }
 
   .task-del {
-    background: none; border: none;
-    color: var(--pink-line); cursor: pointer;
-    font-size: 19px; line-height: 1;
-    padding: 3px 5px; border-radius: 50%;
-    transition: all 0.15s; flex-shrink: 0;
+    background: none;
+    border: none;
+    color: #f8bbd9;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    padding: 3px 5px;
+    border-radius: 50%;
+    transition: all 0.15s;
+    flex-shrink: 0;
   }
-  .task-del:hover { color: var(--pink); background: var(--pink-bg); }
-
-  .task-item.priority {
-    border-color: var(--gold-soft);
-    background: linear-gradient(135deg, #fffaf0, #fff3d6);
-  }
-  .task-item.priority.done {
-    background: linear-gradient(135deg, #fff5f8, #fce4ec);
-    border-color: var(--pink-soft);
-  }
-
-  .task-divider {
-    height: 0;
-    border-top: 1.5px dashed var(--pink-line);
-    margin: 5px 2px;
-    list-style: none;
-  }
+  .task-del:hover { color: #e91e63; background: #fce4ec; }
 
   .empty-msg {
     text-align: center;
-    color: var(--pink-line);
+    color: #f8bbd9;
     font-size: 14px;
-    padding: 24px 0;
-    font-weight: 600;
+    padding: 28px 0;
   }
 
-  .done-block { margin-top: 20px; }
+  /* ===== Schedule ===== */
+  .schedule-section {
+    padding: 10px 24px;
+  }
 
-  /* ===== 予定 ===== */
   .btn-schedule-toggle {
     width: 100%;
-    background: #fff;
-    color: var(--pink);
-    border: 2px dashed var(--pink-line);
-    border-radius: 18px;
-    padding: 12px;
+    background: white;
+    color: #e91e63;
+    border: 2px dashed #f8bbd9;
+    border-radius: 28px;
+    padding: 11px;
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 600;
     font-family: inherit;
     cursor: pointer;
     transition: all 0.2s;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
-  .btn-schedule-toggle:hover { background: var(--pink-bg2); border-color: var(--pink); }
+  .btn-schedule-toggle:hover { background: #fff5f8; border-color: #e91e63; }
 
   .schedule-form {
     display: none;
     flex-direction: column;
-    gap: 9px;
-    background: var(--pink-bg2);
+    gap: 8px;
+    background: white;
     border-radius: 18px;
-    padding: 15px;
-    margin-bottom: 12px;
+    padding: 14px;
+    box-shadow: 0 2px 10px rgba(255,150,180,0.12);
+    margin-bottom: 10px;
     animation: taskSlideIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
   }
   .schedule-form.open { display: flex; }
 
-  .form-row { display: flex; gap: 9px; }
+  .form-row { display: flex; gap: 8px; }
   .form-row > * { flex: 1; }
 
   .sch-input {
-    border: 2px solid var(--pink-line);
+    border: 2px solid #f8bbd9;
     border-radius: 14px;
-    padding: 11px 13px;
+    padding: 9px 12px;
     font-size: 14px;
     font-family: inherit;
-    color: var(--ink);
+    color: #444;
     outline: none;
-    background: #fff;
+    background: white;
     width: 100%;
     min-width: 0;
     transition: border-color 0.2s;
   }
-  .sch-input:focus { border-color: var(--pink); }
-  .sch-input::placeholder { color: var(--pink-soft); }
+  .sch-input:focus { border-color: #e91e63; }
+  .sch-input::placeholder { color: #f48fb1; }
 
   .btn-sch-save {
-    background: linear-gradient(135deg, var(--pink-soft), var(--pink));
-    color: #fff;
+    background: linear-gradient(135deg, #f48fb1, #e91e63);
+    color: white;
     border: none;
-    border-radius: 16px;
-    padding: 11px;
+    border-radius: 20px;
+    padding: 10px;
     font-size: 14px;
     font-weight: 700;
     font-family: inherit;
@@ -575,40 +411,41 @@
   .btn-sch-save:hover { transform: scale(1.03); }
 
   .btn-sch-cancel {
-    background: #fff;
-    color: var(--pink-sub);
-    border: 2px solid var(--pink-line);
-    border-radius: 16px;
-    padding: 11px;
+    background: white;
+    color: #f06292;
+    border: 2px solid #f8bbd9;
+    border-radius: 20px;
+    padding: 10px;
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 600;
     font-family: inherit;
     cursor: pointer;
     transition: all 0.2s;
   }
-  .btn-sch-cancel:hover { background: var(--pink-bg2); border-color: var(--pink); }
+  .btn-sch-cancel:hover { background: #fff5f8; border-color: #e91e63; }
 
   .schedule-list {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 9px;
+    gap: 8px;
   }
 
   .schedule-item {
-    background: var(--pink-bg2);
+    background: white;
     border-radius: 18px;
     padding: 12px 14px;
     display: flex;
     align-items: flex-start;
-    gap: 9px;
+    gap: 8px;
+    box-shadow: 0 2px 10px rgba(255,150,180,0.1);
     border: 1.5px solid transparent;
     transition: border-color 0.2s;
     animation: taskSlideIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
   }
-  .schedule-item:hover { border-color: var(--pink-line); }
+  .schedule-item:hover { border-color: #f8bbd9; }
   .schedule-item.today-item {
-    border-color: var(--pink-soft);
+    border-color: #f48fb1;
     background: linear-gradient(135deg, #fff5f8, #fce4ec);
   }
   .schedule-item.past { opacity: 0.55; }
@@ -617,95 +454,252 @@
   .sch-when { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
   .sch-date {
     font-size: 11px;
-    font-weight: 800;
-    color: var(--pink-sub);
-    background: var(--pink-bg);
+    font-weight: 700;
+    color: #f06292;
+    background: #fce4ec;
     border-radius: 10px;
     padding: 2px 9px;
     flex-shrink: 0;
   }
   .sch-date.is-today {
-    background: linear-gradient(135deg, var(--pink-soft), var(--pink));
-    color: #fff;
+    background: linear-gradient(135deg, #f48fb1, #e91e63);
+    color: white;
   }
-  .sch-time { font-size: 13px; font-weight: 800; color: var(--pink); }
-  .sch-title { font-size: 14px; color: var(--ink); font-weight: 700; word-break: break-word; }
-  .sch-memo { font-size: 12px; color: #b58aa0; margin-top: 2px; word-break: break-word; }
+  .sch-time { font-size: 13px; font-weight: 700; color: #e91e63; }
+  .sch-title { font-size: 14px; color: #444; font-weight: 600; word-break: break-word; }
+  .sch-memo { font-size: 12px; color: #999; margin-top: 2px; word-break: break-word; }
 
   .sch-edit, .sch-del {
-    background: none; border: none; cursor: pointer;
-    line-height: 1; padding: 4px 6px; border-radius: 50%;
-    transition: all 0.15s; flex-shrink: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px 6px;
+    border-radius: 50%;
+    transition: all 0.15s;
+    flex-shrink: 0;
   }
-  .sch-edit { color: var(--pink-soft); font-size: 15px; }
-  .sch-edit:hover { color: var(--pink); background: var(--pink-bg); }
-  .sch-del { color: var(--pink-line); font-size: 18px; }
-  .sch-del:hover { color: var(--pink); background: var(--pink-bg); }
+  .sch-edit { color: #f48fb1; font-size: 15px; }
+  .sch-edit:hover { color: #e91e63; background: #fce4ec; }
+  .sch-del { color: #f8bbd9; font-size: 18px; }
+  .sch-del:hover { color: #e91e63; background: #fce4ec; }
 
-  /* ===== 終了ボタン ===== */
-  .end-section { padding: 18px 16px 0; }
+  /* ===== End button ===== */
+  .end-section {
+    padding: 14px 24px 0;
+  }
+
   .btn-end {
     width: 100%;
-    background: #fff;
-    color: var(--pink);
-    border: 2px solid var(--pink-line);
-    border-radius: 30px;
-    padding: 15px;
-    font-size: 16px;
-    font-weight: 700;
+    background: white;
+    color: #e91e63;
+    border: 2px solid #f8bbd9;
+    border-radius: 28px;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 600;
     font-family: inherit;
     cursor: pointer;
     transition: all 0.2s;
     letter-spacing: 0.03em;
-    box-shadow: 0 4px 14px rgba(255,150,180,0.14);
   }
-  .btn-end:hover { background: var(--pink-bg2); border-color: var(--pink); box-shadow: 0 5px 16px rgba(233,30,99,0.15); }
+  .btn-end:hover { background: #fff5f8; border-color: #e91e63; box-shadow: 0 3px 10px rgba(233,30,99,0.12); }
+
+  /* ===== Lifetime stats ===== */
+  .lifetime-section {
+    padding: 18px 24px 0;
+  }
+
+  .lifetime-card {
+    background: white;
+    border-radius: 24px;
+    padding: 20px 22px;
+    box-shadow: 0 4px 16px rgba(255,150,180,0.12);
+    text-align: center;
+  }
+
+  .lifetime-label {
+    display: block;
+    font-size: 12px;
+    color: #f06292;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+
+  .lifetime-count {
+    display: block;
+    font-size: 32px;
+    font-weight: 800;
+    color: #e91e63;
+    line-height: 1.3;
+    margin-bottom: 12px;
+  }
+  .lifetime-count .unit { font-size: 15px; font-weight: 600; margin-left: 2px; }
+
+  .event-bar-bg {
+    background: #fce4ec;
+    border-radius: 10px;
+    height: 14px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  .event-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ffd54f, #ffb300);
+    border-radius: 10px;
+    width: 0%;
+    transition: width 0.55s cubic-bezier(0.4,0,0.2,1);
+    position: relative;
+  }
+  .event-bar-fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 60%, rgba(255,255,255,0.4));
+    border-radius: 10px;
+  }
+
+  .event-remain {
+    display: block;
+    font-size: 12px;
+    color: #f06292;
+    font-weight: 500;
+  }
+  .event-remain strong { color: #e91e63; font-weight: 700; }
+
+  /* ===== 本日の達成 ===== */
+  .today-achieve {
+    margin-top: 12px;
+    background: linear-gradient(135deg, #fff5f8, #fce4ec);
+    border: 1.5px solid #f8bbd9;
+    border-radius: 16px;
+    padding: 10px 16px;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 8px;
+  }
+  .today-achieve .ta-label { font-size: 13px; color: #e91e63; font-weight: 600; }
+  .today-achieve .ta-num   { font-size: 22px; color: #e91e63; font-weight: 800; line-height: 1; }
+  .today-achieve .ta-unit  { font-size: 13px; color: #f06292; font-weight: 600; }
+
+  /* ===== 優先タスク用 ===== */
+  .btn-star {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 28px;
+    border: 2px solid #f8bbd9;
+    background: white;
+    color: #f48fb1;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .btn-star:hover { border-color: #e91e63; }
+  .btn-star.on {
+    background: linear-gradient(135deg, #ffe082, #ffb300);
+    border-color: #ffb300;
+    color: #fff;
+    box-shadow: 0 3px 10px rgba(255,167,38,0.4);
+  }
+
+  .task-item.priority {
+    border-color: #ffd54f;
+    background: linear-gradient(135deg, #fffaf0, #fff3d6);
+  }
+  .task-item.priority.done {
+    background: linear-gradient(135deg, #fff5f8, #fce4ec);
+    border-color: #f48fb1;
+  }
+
+  .task-star {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 17px;
+    line-height: 1;
+    padding: 3px 4px;
+    border-radius: 50%;
+    color: #f0c040;
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+  .task-star.off { color: #f0d6e2; }
+  .task-star:hover { background: #fff3d6; }
+
+  .task-divider {
+    height: 0;
+    border-top: 1.5px dashed #f8bbd9;
+    margin: 4px 2px;
+    list-style: none;
+  }
+
+  .done-block { margin-top: 18px; }
+  .done-title {
+    font-size: 11px;
+    color: #c79bb0;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    padding-left: 2px;
+  }
 
   .footer-note {
     text-align: center;
-    color: var(--pink-line);
+    color: #f8bbd9;
     font-size: 11px;
-    margin-top: 20px;
+    margin-top: 18px;
     padding: 0 24px;
   }
 
-  /* =========================================================
-   * 紙吹雪
-   * ========================================================= */
+  /* ===== Confetti ===== */
   .confetti-layer {
-    position: fixed; inset: 0;
+    position: fixed;
+    inset: 0;
     pointer-events: none;
     z-index: 90;
     overflow: hidden;
   }
+
   .confetti-piece {
     position: absolute;
     top: -30px;
     animation: confettiFall linear forwards;
     user-select: none;
   }
+
   @keyframes confettiFall {
     0%   { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
     80%  { opacity: 1; }
     100% { transform: translateY(110vh) rotate(900deg) scale(0.5); opacity: 0; }
   }
 
-  /* =========================================================
-   * モーダル
-   * ========================================================= */
+  /* ===== Modal (end-of-day / event) ===== */
   .modal-overlay {
-    position: fixed; inset: 0;
+    position: fixed;
+    inset: 0;
     background: rgba(255, 200, 220, 0.45);
     backdrop-filter: blur(5px);
-    display: flex; align-items: center; justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     z-index: 100;
     padding: 20px;
     animation: overlayIn 0.3s ease;
   }
+
   @keyframes overlayIn { from { opacity: 0; } to { opacity: 1; } }
 
   .modal {
-    background: #fff;
+    background: white;
     border-radius: 32px;
     padding: 36px 28px 32px;
     max-width: 340px;
@@ -715,15 +709,24 @@
     animation: modalPop 0.4s cubic-bezier(0.34,1.56,0.64,1);
     position: relative;
   }
+
   @keyframes modalPop {
     from { opacity: 0; transform: scale(0.75) translateY(24px); }
     to   { opacity: 1; transform: scale(1) translateY(0); }
   }
 
-  .modal-photo { width: 180px; height: auto; margin: 0 auto 18px; display: block; }
+  .modal-photo {
+    width: 180px;
+    height: auto;
+    margin: 0 auto 18px;
+    display: block;
+  }
+
   .modal-msg {
-    font-size: 16px; font-weight: 600;
-    color: var(--pink-text); line-height: 1.75;
+    font-size: 16px;
+    font-weight: 600;
+    color: #c2185b;
+    line-height: 1.75;
     margin-bottom: 22px;
   }
 
@@ -733,18 +736,33 @@
     gap: 10px;
     margin-bottom: 26px;
   }
+
   .stat-card {
     background: linear-gradient(135deg, #fff5f8, #fce4ec);
     border: 1.5px solid #fce4ec;
     border-radius: 18px;
     padding: 14px 6px;
   }
-  .stat-num { display: block; font-size: 26px; font-weight: 800; color: var(--pink); line-height: 1.2; }
-  .stat-lbl { display: block; font-size: 10px; color: var(--pink-sub); line-height: 1.5; margin-top: 3px; }
+
+  .stat-num {
+    display: block;
+    font-size: 26px;
+    font-weight: 800;
+    color: #e91e63;
+    line-height: 1.2;
+  }
+
+  .stat-lbl {
+    display: block;
+    font-size: 10px;
+    color: #f06292;
+    line-height: 1.5;
+    margin-top: 3px;
+  }
 
   .btn-modal-ok {
-    background: linear-gradient(135deg, var(--pink-soft), var(--pink));
-    color: #fff;
+    background: linear-gradient(135deg, #f48fb1, #e91e63);
+    color: white;
     border: none;
     border-radius: 28px;
     padding: 15px 36px;
@@ -758,19 +776,20 @@
   }
   .btn-modal-ok:hover { transform: scale(1.04); }
 
+  /* イベントモーダル(ゴールド調) */
   .modal.event-modal {
     box-shadow: 0 24px 64px rgba(255,160,0,0.3);
-    border: 2px solid var(--gold-soft);
+    border: 2px solid #ffd54f;
   }
   .event-modal .modal-msg { color: #b26a00; }
   .event-modal .btn-modal-ok {
-    background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+    background: linear-gradient(135deg, #ffd54f, #ffb300);
     color: #7a4a00;
     box-shadow: 0 5px 18px rgba(255,160,0,0.35);
   }
   .event-badge {
     display: inline-block;
-    background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+    background: linear-gradient(135deg, #ffd54f, #ffb300);
     color: #7a4a00;
     font-size: 12px;
     font-weight: 800;
@@ -779,134 +798,72 @@
     padding: 5px 16px;
     margin-bottom: 14px;
   }
-
-  /* スマホ最適化 */
-  @media (max-width: 380px) {
-    .dashboard { gap: 11px; padding: 18px 13px 6px; }
-    .dash-card { padding: 14px; border-radius: 22px; }
-    .dc-value { font-size: 26px; }
-    .panel { margin: 14px 13px 0; padding: 16px; }
-    .char-photo { width: 70%; }
-    .speech-bubble { max-width: 48%; }
-  }
 </style>
 </head>
 <body>
 
 <div class="app">
 
-  <!-- ===== 上部：おはようボタン ===== -->
+  <!-- おはようボタン -->
   <div class="morning-section" id="morningSection" style="display:none">
     <button class="btn-morning" id="morningBtn">☀️ おはようございます</button>
   </div>
 
-  <!-- ===== 上部：秘書さんヒーロー（主役） ===== -->
-  <div class="hero">
-    <div class="hero-char">
-      <img src="normal.png" alt="秘書さん" class="char-photo" id="charPhoto">
+  <!-- キャラクター -->
+  <div class="character-section">
+    <div class="char-row">
+      <div class="char-figure">
+        <img src="normal.png" alt="秘書キャラクター" class="char-photo" id="charPhoto">
+      </div>
       <div class="speech-bubble" id="speechBubble">
         <p class="speech-text" id="speechText"></p>
       </div>
     </div>
-    <div class="hero-greeting" id="heroGreeting">秘書ダッシュボード</div>
-    <div class="hero-summary">
-      <span class="hero-chip"><span class="chip-ico">📅</span>今日の予定 <b id="heroScheduleCount">0</b>件</span>
-      <span class="hero-chip"><span class="chip-ico">⭐</span>優先 <b id="heroPriorityCount">0</b>件</span>
+  </div>
+
+  <!-- 進捗 -->
+  <div class="progress-section">
+    <div class="progress-header">
+      <span class="progress-label">今日の進捗</span>
+      <span class="progress-detail" id="progressDetail">0 / 0 完了</span>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+
+    <!-- 本日の達成 -->
+    <div class="today-achieve">
+      <span class="ta-label">本日の達成</span>
+      <span class="ta-num" id="todayDone">0</span>
+      <span class="ta-unit">件</span>
     </div>
   </div>
 
-  <!-- ===== 中段：ダッシュボードカード ===== -->
-  <div class="dashboard">
-
-    <!-- 今日の予定 -->
-    <div class="dash-card wide">
-      <div class="dc-head">
-        <span class="dc-ico">📅</span>
-        <span class="dc-label">今日の予定</span>
-      </div>
-      <div class="dc-schedule" id="dashScheduleText"><span class="none">予定はありません</span></div>
-    </div>
-
-    <!-- 優先タスク数 -->
-    <div class="dash-card">
-      <div class="dc-head">
-        <span class="dc-ico">⭐</span>
-        <span class="dc-label">優先タスク</span>
-      </div>
-      <div class="dc-value"><span id="dashPriorityCount">0</span><span class="unit">件</span></div>
-    </div>
-
-    <!-- 本日の達成件数 -->
-    <div class="dash-card">
-      <div class="dc-head">
-        <span class="dc-ico">✅</span>
-        <span class="dc-label">本日の達成</span>
-      </div>
-      <div class="dc-value"><span id="todayDone">0</span><span class="unit">件</span></div>
-    </div>
-
-    <!-- 累計達成タスク数 -->
-    <div class="dash-card gold">
-      <div class="dc-head">
-        <span class="dc-ico">🏆</span>
-        <span class="dc-label">累計達成</span>
-      </div>
-      <div class="dc-value"><span id="lifetimeCount">0</span><span class="unit">件</span></div>
-    </div>
-
-    <!-- 次のイベントまで -->
-    <div class="dash-card gold">
-      <div class="dc-head">
-        <span class="dc-ico">🎉</span>
-        <span class="dc-label">次のイベント</span>
-      </div>
-      <div class="event-bar-bg">
-        <div class="event-bar-fill" id="eventBarFill"></div>
-      </div>
-      <span class="event-remain" id="eventRemain"></span>
-    </div>
-
-  </div>
-
-  <!-- ===== 下段：タスク入力＋一覧 ===== -->
-  <div class="panel">
-    <div class="panel-title">📝 タスク</div>
-
+  <!-- 入力 -->
+  <div class="input-section">
     <div class="input-row">
       <button class="btn-star" id="starBtn" title="優先タスクにする">☆</button>
       <input type="text" class="task-input" id="taskInput"
              placeholder="タスクを入力して Enter または ＋" maxlength="100">
       <button class="btn-add" id="addBtn" title="追加">＋</button>
     </div>
+  </div>
 
-    <!-- スリム進捗 -->
-    <div class="mini-progress">
-      <div class="mini-progress-head">
-        <span class="lbl">今日の進捗</span>
-        <span class="det" id="progressDetail">0 / 0 完了</span>
-      </div>
-      <div class="progress-bar-bg">
-        <div class="progress-bar-fill" id="progressFill"></div>
-      </div>
-    </div>
+  <!-- タスク一覧 -->
+  <div class="task-section">
+    <div class="section-title">未完了タスク</div>
+    <ul class="task-list" id="taskListActive"></ul>
+    <p class="empty-msg" id="emptyMsg">タスクを追加してみましょう♪</p>
 
-    <!-- 未完了タスク -->
-    <div style="margin-top:18px">
-      <div class="sub-title">未完了タスク</div>
-      <ul class="task-list" id="taskListActive"></ul>
-      <p class="empty-msg" id="emptyMsg">タスクを追加してみましょう♪</p>
-    </div>
-
-    <!-- 本日完了タスク -->
     <div class="done-block" id="doneBlock" style="display:none">
-      <div class="sub-title">本日完了</div>
+      <div class="done-title">本日完了</div>
       <ul class="task-list" id="taskListDone"></ul>
     </div>
   </div>
 
-  <!-- ===== 下段：予定 ===== -->
-  <div class="panel">
-    <div class="panel-title">📅 予定</div>
+  <!-- 予定 -->
+  <div class="schedule-section">
+    <div class="section-title">予定</div>
 
     <button class="btn-schedule-toggle" id="scheduleToggleBtn">＋ 予定を追加</button>
 
@@ -927,9 +884,21 @@
     <p class="empty-msg" id="scheduleEmptyMsg">予定はまだありません</p>
   </div>
 
-  <!-- ===== 下段：終了ボタン ===== -->
+  <!-- 終了ボタン -->
   <div class="end-section">
-    <button class="btn-end" id="endBtn">🌙 今日はこれで終了</button>
+    <button class="btn-end" id="endBtn">今日はこれで終了</button>
+  </div>
+
+  <!-- 累計達成タスク数 -->
+  <div class="lifetime-section">
+    <div class="lifetime-card">
+      <span class="lifetime-label">累計達成タスク数</span>
+      <span class="lifetime-count"><span id="lifetimeCount">0</span><span class="unit">件</span></span>
+      <div class="event-bar-bg">
+        <div class="event-bar-fill" id="eventBarFill"></div>
+      </div>
+      <span class="event-remain" id="eventRemain"></span>
+    </div>
   </div>
 
   <p class="footer-note">入力内容はブラウザに自動保存されます（このパソコン・このブラウザのみ）</p>
@@ -942,7 +911,7 @@
 <!-- 終了モーダル -->
 <div class="modal-overlay" id="modal" style="display:none">
   <div class="modal">
-    <img src="tired.png" alt="秘書さん" class="modal-photo">
+    <img src="tired.png" alt="秘書キャラクター" class="modal-photo">
     <p class="modal-msg" id="modalMsg">今日もお疲れさまでした😊</p>
 
     <div class="stats-grid">
@@ -968,7 +937,7 @@
 <div class="modal-overlay" id="eventModal" style="display:none">
   <div class="modal event-modal">
     <span class="event-badge" id="eventBadge">🎉 50件達成</span>
-    <img src="event50.png" alt="お祝い秘書さん" class="modal-photo" id="eventPhoto">
+    <img src="event50.png" alt="お祝いキャラクター" class="modal-photo" id="eventPhoto">
     <p class="modal-msg" id="eventMsg"></p>
     <button class="btn-modal-ok" id="eventOkBtn">ありがとう♪</button>
   </div>
@@ -1238,13 +1207,6 @@
   const scheduleList  = document.getElementById('scheduleList');
   const scheduleEmptyMsg = document.getElementById('scheduleEmptyMsg');
 
-  // --- ダッシュボード用（新レイアウトで追加した表示要素） ---
-  const dashScheduleText  = document.getElementById('dashScheduleText');
-  const dashPriorityCount = document.getElementById('dashPriorityCount');
-  const heroScheduleCount = document.getElementById('heroScheduleCount');
-  const heroPriorityCount = document.getElementById('heroPriorityCount');
-  const heroGreeting      = document.getElementById('heroGreeting');
-
   function rand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
   function makeId() { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
 
@@ -1329,31 +1291,7 @@
     }
     const pct = Math.round((totalDone - prev) / (next - prev) * 100);
     eventBarFill.style.width = pct + '%';
-    eventRemain.innerHTML = `次まで <strong>あと${next - totalDone}件</strong>`;
-  }
-
-  /* =========================================================
-   * ダッシュボードカード更新（新レイアウト）
-   * 既存の集計関数を使うだけで、データ・処理には手を加えない
-   * ========================================================= */
-  function updateDashboard() {
-    // 優先タスク数
-    const priCount = priorityTasks().length;
-    dashPriorityCount.textContent = priCount;
-    heroPriorityCount.textContent = priCount;
-
-    // 今日の予定
-    const list = todaysSchedules();
-    heroScheduleCount.textContent = list.length;
-
-    if (list.length === 0) {
-      dashScheduleText.innerHTML = '<span class="none">予定はありません</span>';
-    } else {
-      const s = list[0];
-      let html = `<strong>${s.time}</strong>　${escHtml(s.title)}`;
-      if (list.length > 1) html += `<span class="more">ほか${list.length - 1}件</span>`;
-      dashScheduleText.innerHTML = html;
-    }
+    eventRemain.innerHTML = `次のイベントまで <strong>あと${next - totalDone}件</strong>`;
   }
 
   /* =========================================================
@@ -1553,7 +1491,6 @@
 
     save();
     renderSchedules();
-    updateDashboard();
     closeScheduleForm();
 
     if (date === todayISO()) {
@@ -1568,7 +1505,6 @@
     if (editingScheduleId === id) closeScheduleForm();
     save();
     renderSchedules();
-    updateDashboard();
   }
 
   scheduleToggleBtn.addEventListener('click', () => openScheduleForm(null));
@@ -1638,7 +1574,6 @@
     updateLifetime();
     updateMorningButton();
     renderSchedules();
-    updateDashboard();
   }
 
   function addTask(text, priority) {
