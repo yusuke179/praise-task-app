@@ -203,13 +203,6 @@
   }
 
   /* 挨拶＋クイックサマリー（予定・優先タスク数） */
-  .hero-greeting {
-    text-align: center;
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--pink-text);
-    margin-top: 14px;
-  }
   .hero-summary {
     display: flex;
     justify-content: center;
@@ -843,7 +836,6 @@
         <p class="speech-text" id="speechText"></p>
       </div>
     </div>
-    <div class="hero-greeting" id="heroGreeting">秘書ダッシュボード</div>
     <div class="hero-summary">
       <span class="hero-chip"><span class="chip-ico">📅</span>今日の予定 <b id="heroScheduleCount">0</b>件</span>
       <span class="hero-chip"><span class="chip-ico">⭐</span>優先 <b id="heroPriorityCount">0</b>件</span>
@@ -1278,7 +1270,6 @@
   const dashPriorityCount = document.getElementById('dashPriorityCount');
   const heroScheduleCount = document.getElementById('heroScheduleCount');
   const heroPriorityCount = document.getElementById('heroPriorityCount');
-  const heroGreeting      = document.getElementById('heroGreeting');
 
   function rand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
   function makeId() { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
