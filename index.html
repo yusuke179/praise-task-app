@@ -79,7 +79,7 @@
     position: relative;
     background: linear-gradient(165deg, #ffffff 0%, #fff0f5 100%);
     border-radius: 0 0 40px 40px;
-    padding: 22px 22px 24px;
+    padding: 10px 8px 16px;
     box-shadow: 0 8px 26px rgba(255, 150, 180, 0.18);
     overflow: hidden;
   }
@@ -100,15 +100,21 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 16px;
+    gap: 10px;
   }
 
-  /* 秘書さん画像を主役として大きく表示（縦横比維持・全体が見える） */
+  /* 秘書さん画像を主役として大きく表示（縦横比維持・全体が見える）
+   * 幅は画面いっぱい近く（95%）・max-width制限なし。
+   * 元画像が横長(4:3)のため、高さは auto にして横幅いっぱいに表示する。
+   * こうすることで画像が切れず（object-fit:contain）、
+   * かつ上下に余分な余白（レターボックス）が出ないようにする。
+   * min-height で最低限の大きさ（主役感）も確保する。 */
   .char-photo {
     flex: 0 0 auto;
-    width: 90%;
-    max-width: 560px;
+    width: 95%;
+    max-width: none;
     height: auto;
+    min-height: 280px;
     display: block;
     object-fit: contain;
     filter: drop-shadow(0 8px 16px rgba(233,30,99,0.12));
@@ -159,11 +165,12 @@
     border-top: 0;
   }
 
-  /* スマホ: 画像を画面幅いっぱい近くまで使う */
+  /* スマホ: 画像を画面幅いっぱい近く（95%）まで使う（高さは自動・余白を出さない） */
   @media (max-width: 480px) {
     .char-photo {
-      width: 88%;
-      max-width: 460px;
+      width: 95%;
+      max-width: none;
+      height: auto;
     }
   }
 
@@ -793,7 +800,7 @@
     .dash-card { padding: 14px; border-radius: 22px; }
     .dc-value { font-size: 26px; }
     .panel { margin: 14px 13px 0; padding: 16px; }
-    .char-photo { width: 66%; }
+    .char-photo { width: 95%; max-width: none; }
   }
 </style>
 </head>
@@ -1145,12 +1152,13 @@
   // 午前5:00を1日の開始時刻とする。
   // 0:00〜4:59 はまだ「前日」として扱い、5:00を過ぎたら新しい1日になる。
   // 繰り越し・初回起動・おはよう判定はすべてこの「論理日」を基準にする。
+  // 日付は必ずゼロ埋め(YYYY-MM-DD)で統一し、保存済みの値と確実に比較できるようにする。
   function todayStr() {
     const d = new Date();
     if (d.getHours() < 5) {
       d.setDate(d.getDate() - 1); // 月またぎ・年またぎも自動補正される
     }
-    return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
   }
 
   function save() {
@@ -1186,19 +1194,28 @@
       totalDone = 0; shownEvents = []; lastMorningDate = null;
     }
 
-    // 翌朝（論理日が変わった）の繰り越し処理:
-    //   ・未完了タスクのみ繰り越す
-    //   ・完了済みタスクはリセット（消す）
-    // 「今日はこれで終了」を押したかどうかに関係なく、日付が変われば実行する。
-    const isNewDay = lastOpenDate !== todayStr();
+    // 起動時に論理日が変わっていれば繰り越し処理を行う。
+    rolloverIfNewDay();
+  }
+
+  // 翌朝（論理日が変わった）の繰り越し処理:
+  //   ・未完了タスクのみ繰り越す（優先フラグもそのまま保持される）
+  //   ・完了済みタスクはリセット（消す）
+  //   ・「今日はこれで終了」フラグを解除して通常画面に戻す
+  // 「今日はこれで終了」を押したかどうかに関係なく、論理日が変われば実行する。
+  // load() からの初回起動時だけでなく、復帰時・5:00またぎ時にも呼ぶことで
+  // 日付変更判定を確実に行う。論理日が変わったときだけ true を返す。
+  function rolloverIfNewDay() {
+    const today = todayStr();
+    const isNewDay = lastOpenDate !== today;
     if (isNewDay) {
       endFlag = false;
       tasks = tasks.filter(t => !t.done);
+      isFirstOpenToday = true;
+      lastOpenDate = today;
+      save();
     }
-
-    isFirstOpenToday = isNewDay;
-    lastOpenDate = todayStr();
-    save();
+    return isNewDay;
   }
 
   /* =========================================================
@@ -1787,6 +1804,33 @@
     if (confettiTimer) { clearTimeout(confettiTimer); confettiTimer = null; }
     confettiLayer.innerHTML = '';
   }
+
+  /* =========================================================
+   * 日付変更の確実な検知
+   * load() 時（フルリロード）だけでなく、
+   *   ・アプリが前面に復帰したとき（visibilitychange / focus / pageshow）
+   *   ・開いたまま朝5:00をまたいだとき（60秒ごとのタイマー）
+   * にも論理日をチェックする。
+   * 論理日が変わっていれば未完了タスクを繰り越し、おはようボタンを再表示する。
+   * これにより「翌朝おはようボタンが出ない」状態を防ぐ。
+   * ========================================================= */
+  function checkDayChange() {
+    if (rolloverIfNewDay()) {
+      // 新しい1日に切り替わった：状態をリセットして通常画面（朝）に戻す
+      currentState = null;
+      render();
+    } else {
+      // 念のためおはようボタンの表示状態だけは常に最新化する
+      updateMorningButton();
+    }
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) checkDayChange();
+  });
+  window.addEventListener('focus', checkDayChange);
+  window.addEventListener('pageshow', checkDayChange);
+  setInterval(checkDayChange, 60 * 1000);
 
   load();
   render();
