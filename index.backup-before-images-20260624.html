@@ -1001,146 +1001,87 @@
   const CHARACTERS = {
     secretary: {
       name: '秘書',
-      // 達成率による状態遷移: morning(thinking) → working(0-30%) → smile(30-50%)
-      //   → normal(50-80%) → cheer(80-99%) → perfect(100%)。終了は tired。
-      // relax(休憩) / surprise(新記録・イベント直前) は特定タイミングで割り込み表示する。
-      // 画像: thinking/working/smile/cheer/relax/surprise/celebrate は新規追加。
-      // まだ画像が無い場合は IMAGE_FALLBACK で近い既存画像に退避する（壊れない）。
+      // 状態遷移順: morning → normal/working → support → cheer → perfect → tired
+      // thinking / working は新規追加の画像（thinking.png / working.png）を使用
       states: {
-        // 朝（5:00〜・初回起動・おはよう）＝ thinking.png（知的で落ち着いた雰囲気）
         morning: {
-          image: 'thinking.png',
+          image: 'morning.png',
           messages: [
-            'おはようございます☀️ 今日も始めましょう',
-            '今日の予定を確認しておきましょうか😊',
-            'まずは軽いものから一つ、片付けましょう✨',
-            '焦らず、落ち着いていきましょう☕',
-            '今日も良い一日になりますように♪',
-            '優先度の高いものから整理しますね😊',
-            '深呼吸して、いきましょう🌸',
-            'やることを一緒に確認していきましょう📋',
+            'おはようございます☀️',
+            '今日も無理せずいきましょう😊',
+            'まずは一つ終わらせてみましょう✨',
+            '良い一日にしましょう♪',
+            '焦らず進めていきましょう☕',
           ],
         },
-        // 予定確認・優先タスクの案内＝ thinking.png（少し真剣な表情）
-        thinking: {
-          image: 'thinking.png',
-          messages: [
-            '大事な予定がありますね😊',
-            '今日の流れを整理してみましょう☕',
-            'ここは慎重に進めたいところですね✨',
-            '優先タスクから手をつけましょう♪',
-            '段取りを確認しておきますね📋',
-            '抜けがないか見ておきましょう😊',
-          ],
-        },
-        // 達成率0〜30%（通常状態）＝ working.png（ノートPCで作業しながら微笑む）
-        working: {
-          image: 'working.png',
-          messages: [
-            '私も作業していますので、一緒に頑張りましょう😊',
-            'まずは滑り出しが大事ですね✨',
-            'ゆっくりで大丈夫、一歩ずついきましょう☕',
-            'いいスタートです♪ この調子で',
-            '今日も良いペースで始まりましたね😊',
-            'コーヒー片手に、無理なくいきましょう☕',
-            '一緒に進めていきましょうね✨',
-            '目の前の一つに集中しましょう😊',
-          ],
-        },
-        // 達成率30〜50%＝ smile.png（少し嬉しそうな笑顔・優しく見守る）
-        smile: {
-          image: 'smile.png',
-          messages: [
-            'いい感じに進んでいますね😊',
-            'もう半分が見えてきました✨',
-            'その調子、とても順調ですよ♪',
-            '頑張っている姿、素敵です😊',
-            'ここまでよく続けていますね🌸',
-            'ペースが掴めてきましたね✨',
-            '見ていて気持ちがいいですよ😊',
-            'いいですね、このまま続けましょう♪',
-          ],
-        },
-        // 達成率50〜80%＝ normal.png（折り返し）
         normal: {
           image: 'normal.png',
           messages: [
-            '半分を超えました、素晴らしいです✨',
-            '後半戦ですね、いいペースです😊',
-            'ここまで来たら、あと少しですよ♪',
-            '集中力が続いていますね、さすがです😊',
-            'ゴールが近づいてきました✨',
-            'この勢いで進めていきましょう☕',
-            'よく頑張っていますね、誇らしいです🌸',
-            '残りも一緒に片付けましょう😊',
+            '順調ですね😊',
+            '少しずつ進んでいますね✨',
+            '今日も頑張っていますね♪',
+            'コツコツが一番です☕',
+            'いい感じですよ😊',
           ],
         },
-        // 達成率80〜99%＝ cheer.png（軽く拳を握る・応援）
-        cheer: {
-          image: 'cheer.png',
+        thinking: {
+          image: 'thinking.png',
           messages: [
-            'あと少しです、ファイトです💪',
-            'ゴールはすぐそこ！応援しています✨',
-            'ここまで来たら最後までいきましょう😊',
-            'すごい、もうほとんど終わりですね🎉',
-            'あと一息！その調子です💪',
-            '最後まで見届けさせてくださいね❤️',
-            'もうひと踏ん張りです、頑張れ✨',
-            '完璧まであと少しですよ😊',
+            '今日の予定を確認しておきましょう😊',
+            '優先タスクがありますよ✨',
+            'まずは発注から始めましょう♪',
+            '今日の流れを整理してみましょう☕',
+            '大事な予定がありますね😊',
           ],
         },
-        // 100%＝ perfect.png
+        working: {
+          image: 'working.png',
+          messages: [
+            '私も作業していますので一緒に頑張りましょう😊',
+            '順調に進んでいますね✨',
+            '今日も良いペースです♪',
+            '一歩ずつ進めていきましょう☕',
+            '応援しています😊',
+          ],
+        },
+        support: {
+          image: 'support.png',
+          messages: [
+            '少し休憩しませんか？☕',
+            'ここまで十分頑張っていますよ😊',
+            '無理しすぎないでくださいね✨',
+            '温かい飲み物でもどうですか♪',
+            '休みながら進めましょう☕',
+          ],
+        },
+        cheer: {
+          image: 'happy.png',
+          messages: [
+            'あと少しです✨',
+            'いいペースですよ😊',
+            'その調子です♪',
+            '最後まで応援しています❤️',
+            'ゴールが見えてきましたね✨',
+          ],
+        },
         perfect: {
           image: 'perfect.png',
           messages: [
-            '全タスク完了です、お見事🎉',
-            '今日は完璧ですね、素晴らしいです✨',
-            'やりきりましたね、本当にお疲れさまでした🌸',
+            '全タスク完了です🎉',
+            '素晴らしいです✨',
+            '今日は完璧ですね😊',
+            '本当にお疲れさまでした🌸',
             '達成おめでとうございます🎊',
-            '全部終わりました、誇らしいです😊',
-            '100%達成、最高の一日ですね❤️',
-            'パーフェクトです♪ ゆっくり休んでくださいね',
-            'よく頑張りました、満点です💯',
           ],
         },
-        // 休憩メッセージ＝ relax.png（猫柄マグカップ・優しく微笑む）
-        relax: {
-          image: 'relax.png',
-          messages: [
-            '少し休憩しませんか？☕',
-            'ここまで頑張ったので、一息つきましょう😊',
-            '温かい飲み物でもいかがですか🐱☕',
-            '無理は禁物ですよ、ひと休みしましょう✨',
-            '肩の力を抜いて、深呼吸しましょう🌸',
-            'たまには休むのも大事なお仕事です😊',
-            'お茶を淹れてきますね、少し休みましょう☕',
-            '休みながらで大丈夫、ゆっくりいきましょう♪',
-          ],
-        },
-        // 新記録・イベント直前＝ surprise.png（少し驚いた表情）
-        surprise: {
-          image: 'surprise.png',
-          messages: [
-            'わっ、すごいです！新記録ですよ✨',
-            'えっ、もうこんなに！？驚きました😲',
-            'この調子、すごいですね…！✨',
-            'あと少しでイベントです、ドキドキしますね😊',
-            'まさかここまでとは…素晴らしいです😲',
-            'びっくりしました、その勢いすごいです✨',
-            'もうすぐ大きな節目ですよ、楽しみですね😊',
-          ],
-        },
-        // 「今日はこれで終了」＝ tired.png
         tired: {
           image: 'tired.png',
           messages: [
             '今日もお疲れさまでした🌙',
             'ゆっくり休んでくださいね😊',
-            'また明日、お待ちしています♪',
+            'また明日お待ちしています♪',
             '残りは明日に回しましょう☕',
             '頑張りすぎないでくださいね✨',
-            '今日の自分を褒めてあげてくださいね🌸',
-            'おやすみなさい、また明日💕',
           ],
         },
       },
@@ -1154,36 +1095,23 @@
       taskDoneMessages: [
         'いい感じです♪',
         'その調子です😊',
-        '一つ完了、えらいです✨',
-        'はい、よくできました🌸',
-        '着実に進んでいますね😊',
-        'ナイスです♪',
+        '一つ終わりましたね、えらいです✨',
       ],
       // 累計達成数イベント（count の昇順で定義する）
-      //   50達成      → celebrate.png（フリップを持っている）
-      //   100達成以降 → special.png（両手を広げている）
       events: [
         {
           count: 50,
-          image: 'celebrate.png',
+          image: 'event50.png',
           messages: [
-            '50タスク達成、おめでとうございます🎉',
-            '小さな積み重ねが実を結びましたね♪',
-            'ここまでよく続けました、お見事です✨',
+            '50タスク達成おめでとうございます🎉',
+            '小さな積み重ねって素敵ですね♪',
           ],
         },
-        {
-          count: 100,
-          image: 'special.png',
-          messages: [
-            '100タスク達成です、本当におめでとうございます🎊',
-            'ここまで続けられるのは、本当にすごいことですよ✨',
-          ],
-        },
-        { count: 200,  image: 'special.png', messages: ['もう200件ですね😊', 'あなたの頑張りを、私はちゃんと見ていますよ♪'] },
-        { count: 300,  image: 'special.png', messages: ['本当に頑張っていますね♪', '300件、誇りに思っていいですよ✨'] },
-        { count: 500,  image: 'special.png', messages: ['私、とても誇らしいです✨', '500件…言葉になりません、お見事です🌸'] },
-        { count: 1000, image: 'special.png', messages: ['ここまで続けられる人は、なかなかいません♪', '1000件達成、心から尊敬します✨'] },
+        { count: 100,  image: 'special.png', messages: ['100タスク達成おめでとうございます♪'] },
+        { count: 200,  image: 'special.png', messages: ['もう200件ですね😊'] },
+        { count: 300,  image: 'special.png', messages: ['本当に頑張っていますね♪'] },
+        { count: 500,  image: 'special.png', messages: ['私、とても誇らしいです✨'] },
+        { count: 1000, image: 'special.png', messages: ['ここまで続けられる人はなかなかいません♪'] },
       ],
       endModalMessage: '今日はここまでですね😊<br>残りのタスクは明日に繰り越しておきます♪<br>お疲れさまでした💕',
     },
@@ -1195,20 +1123,12 @@
   /* =========================================================
    * 状態判定（達成率 → 状態名）
    * ========================================================= */
-  //   今日はこれで終了 → tired
-  //   タスク0件        → 朝の初回は morning(thinking) / それ以外は working（通常）
-  //   100%             → perfect
-  //   80〜99%          → cheer
-  //   50〜80%          → normal
-  //   30〜50%          → smile
-  //   0〜30%           → working
   function resolveStateName(ctx) {
     if (ctx.endFlag) return 'tired';
-    if (ctx.total === 0) return ctx.isFirstOpenToday ? 'morning' : 'working';
+    if (ctx.total === 0) return ctx.isFirstOpenToday ? 'morning' : 'normal';
     if (ctx.pct === 100) return 'perfect';
     if (ctx.pct >= 80) return 'cheer';
-    if (ctx.pct >= 50) return 'normal';
-    if (ctx.pct >= 30) return 'smile';
+    if (ctx.pct >= 50) return 'support';
     return 'working';
   }
 
@@ -1228,11 +1148,6 @@
   let totalDone = 0;          // 累計達成タスク数
   let shownEvents = [];       // 表示済みイベントの count 一覧
   let lastMorningDate = null; // おはようボタンを押した日
-  let bestDailyDone = 0;      // 1日の最多完了数（新記録演出の判定に使う）
-
-  // 以下はセッション中のみの状態（保存しない）
-  let recordCelebrated = false; // この起動中に新記録を祝ったか
-  let relaxStep = 0;            // 連続完了カウント（休憩メッセージの間隔）
 
   // 午前5:00を1日の開始時刻とする。
   // 0:00〜4:59 はまだ「前日」として扱い、5:00を過ぎたら新しい1日になる。
@@ -1250,7 +1165,7 @@
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
         tasks, schedules, endFlag, lastEndDate, lastOpenDate,
-        totalDone, shownEvents, lastMorningDate, bestDailyDone,
+        totalDone, shownEvents, lastMorningDate,
       }));
     } catch(e) {}
   }
@@ -1266,7 +1181,6 @@
         lastEndDate = p.lastEndDate || null;
         lastOpenDate = p.lastOpenDate || null;
         lastMorningDate = p.lastMorningDate || null;
-        bestDailyDone = typeof p.bestDailyDone === 'number' ? p.bestDailyDone : 0;
         shownEvents = Array.isArray(p.shownEvents) ? p.shownEvents : [];
         if (typeof p.totalDone === 'number') {
           totalDone = p.totalDone;
@@ -1277,7 +1191,7 @@
       }
     } catch(e) {
       tasks = []; schedules = []; endFlag = false; lastEndDate = null; lastOpenDate = null;
-      totalDone = 0; shownEvents = []; lastMorningDate = null; bestDailyDone = 0;
+      totalDone = 0; shownEvents = []; lastMorningDate = null;
     }
 
     // 起動時に論理日が変わっていれば繰り越し処理を行う。
@@ -1355,17 +1269,6 @@
   function rand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
   function makeId() { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
 
-  // セリフをランダムに選ぶ。ただし同じキー(画像/状態)では直前と同じセリフを連続させない。
-  const lastPicked = {};
-  function pickMessage(key, arr) {
-    if (!arr || arr.length === 0) return '';
-    if (arr.length === 1) return arr[0];
-    let m, guard = 0;
-    do { m = rand(arr); } while (m === lastPicked[key] && ++guard < 20);
-    lastPicked[key] = m;
-    return m;
-  }
-
   function setSpeech(html) {
     speechText.innerHTML = html;
     speechBubble.style.animation = 'none';
@@ -1403,40 +1306,27 @@
 
     charPhoto.src = state.image;
     if (force || stateName !== currentState) {
-      setSpeech(pickMessage(stateName, state.messages));
+      setSpeech(rand(state.messages));
       currentState = stateName;
     }
   }
 
-  // 状態を即時に切り替える。html を渡すとセリフを固定、省略でランダム（連続重複なし）。
+  // 状態を即時に切り替える。html を渡すとセリフを固定、省略でランダム。
   function showState(stateName, html) {
     const state = CHAR.states[stateName];
     if (!state) return;
     charPhoto.src = state.image;
-    setSpeech(html != null ? html : pickMessage(stateName, state.messages));
+    setSpeech(html != null ? html : rand(state.messages));
     currentState = stateName;
     bounceChar();
   }
 
   function showStateNow(stateName) { showState(stateName); }
 
-  // 新規追加の画像(thinking/working/smile/cheer/relax/surprise/celebrate)が
-  // まだ用意されていない場合でも壊れないよう、近い既存画像にフォールバックする。
-  // 本物の差し替え画像を同名で置けば自動でそちらが使われる。
-  const IMAGE_FALLBACK = {
-    'thinking.png':  'morning.png',
-    'working.png':   'normal.png',
-    'smile.png':     'happy.png',
-    'cheer.png':     'happy.png',
-    'relax.png':     'support.png',
-    'surprise.png':  'happy.png',
-    'celebrate.png': 'event50.png',
-  };
+  // thinking.png / working.png などがまだ無い場合でも壊れないよう、
+  // 画像読み込みに失敗したら normal.png にフォールバックする。
   charPhoto.addEventListener('error', () => {
-    const file = (charPhoto.getAttribute('src') || '').split('/').pop();
-    const fb = IMAGE_FALLBACK[file];
-    if (fb && file !== fb) charPhoto.src = fb;
-    else if (file !== 'normal.png') charPhoto.src = 'normal.png';
+    if (charPhoto.getAttribute('src') !== 'normal.png') charPhoto.src = 'normal.png';
   });
 
   /* =========================================================
@@ -1490,17 +1380,9 @@
   /* =========================================================
    * イベント（初回到達時のみ表示）
    * ========================================================= */
-  // イベントモーダルの画像も、celebrate.png が未用意なら event50.png に退避する。
-  eventPhoto.addEventListener('error', () => {
-    const file = (eventPhoto.getAttribute('src') || '').split('/').pop();
-    if (file === 'celebrate.png') eventPhoto.src = 'event50.png';
-    else if (file !== 'special.png') eventPhoto.src = 'special.png';
-  });
-
-  // 累計イベントに到達していればモーダルを表示し true を返す。
   function checkEvents() {
     const reached = CHAR.events.filter(ev => totalDone >= ev.count && !shownEvents.includes(ev.count));
-    if (reached.length === 0) return false;
+    if (reached.length === 0) return;
 
     // 複数同時到達時は最大のものを表示し、すべて表示済みにする
     const ev = reached[reached.length - 1];
@@ -1512,7 +1394,6 @@
     eventMsg.innerHTML = ev.messages.join('<br>');
     eventModal.style.display = 'flex';
     shootConfetti();
-    return true;
   }
 
   function closeEventModal() {
@@ -1805,46 +1686,15 @@
     render();
 
     if (!wasDone && task.done) {
-      const { done, total } = updateProgress();
-      const allDone = (done === total && total > 0);
-
-      // 新記録（1日の最多完了数を更新）したか判定し、記録は常に更新する
-      let newRecord = false;
-      if (done > bestDailyDone) {
-        if (bestDailyDone > 0 && !recordCelebrated && !allDone) newRecord = true;
-        bestDailyDone = done;
-        save();
-      }
-
-      // イベント直前（あと1件で累計イベント到達）か
-      const imminent = CHAR.events.some(ev =>
-        ev.count === totalDone + 1 && !shownEvents.includes(ev.count));
-
-      // 休憩をすすめるタイミング（5件完了ごと）
-      relaxStep++;
-      const breakTime = (relaxStep % 5 === 0);
-
       bounceChar();
-      if (allDone) shootConfetti();
-
-      // 累計イベント(50→celebrate / 100以降→special)のモーダルを最優先で確認
-      const eventFired = checkEvents();
-
-      if (!allDone && !eventFired) {
-        if (imminent || newRecord) {
-          // 新記録・イベント直前 → surprise.png
-          showState('surprise', imminent
-            ? '次のイベントまで<strong>あと1件</strong>です、ドキドキしますね😲'
-            : `本日<strong>${done}件</strong>、新記録です✨`);
-          if (newRecord) recordCelebrated = true;
-        } else if (breakTime) {
-          // 休憩メッセージ → relax.png
-          showState('relax');
-        } else {
-          // 通常の1件完了フィードバック（画像は達成率の状態のまま）
-          setSpeech(pickMessage('taskDone', CHAR.taskDoneMessages));
-        }
+      const { done, total } = updateProgress();
+      if (done === total && total > 0) {
+        shootConfetti();
+      } else {
+        // 全完了時は perfect 状態のセリフを優先する
+        setSpeech(rand(CHAR.taskDoneMessages));
       }
+      checkEvents();
     }
   }
 
