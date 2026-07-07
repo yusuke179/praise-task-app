@@ -1,0 +1,314 @@
+[
+  {
+    "season": "spring",
+    "state": "normal",
+    "filename": "public/shiori/spring/normal.png",
+    "original": "686DC9FA-C2C5-4755-A725-EBF4495E9E87.PNG"
+  },
+  {
+    "season": "spring",
+    "state": "memo",
+    "filename": "public/shiori/spring/memo.png",
+    "original": "09163B3A-12EA-4F8C-B17E-95383AA75839.PNG"
+  },
+  {
+    "season": "spring",
+    "state": "glasses",
+    "filename": "public/shiori/spring/glasses.png",
+    "original": "398DA79D-2C6F-4BA7-AE8C-F13D2FA031B8.PNG"
+  },
+  {
+    "season": "spring",
+    "state": "coffee",
+    "filename": "public/shiori/spring/coffee.png",
+    "original": "5D898F44-058A-414C-9CFA-BDBC69C8B7C7.PNG"
+  },
+  {
+    "season": "spring",
+    "state": "surprised",
+    "filename": "public/shiori/spring/surprised.png",
+    "original": "4745BFB9-1279-42FD-A259-7C9A0D7E72F4.PNG"
+  },
+  {
+    "season": "spring",
+    "state": "wink",
+    "filename": "public/shiori/spring/wink.png",
+    "original": "563AFF14-C9AF-44BD-B03F-844944CC9ED4.PNG"
+  },
+  {
+    "season": "spring",
+    "state": "guts",
+    "filename": "public/shiori/spring/guts.png",
+    "original": "7E4EAC56-19CC-4914-B41B-B570AF70499F.PNG"
+  },
+  {
+    "season": "spring",
+    "state": "relax",
+    "filename": "public/shiori/spring/relax.png",
+    "original": "681CAFF6-1E81-4B78-88E2-94782E9F38A2.PNG"
+  },
+  {
+    "season": "spring",
+    "state": "prayer",
+    "filename": "public/shiori/spring/prayer.png",
+    "original": "3F87C03D-42BA-4A6A-B713-DF494EB675F6.PNG"
+  },
+  {
+    "season": "spring",
+    "state": "smile",
+    "filename": "public/shiori/spring/smile.png",
+    "original": "B7E0E8C2-3B76-4A1B-82ED-4BAEEAC98248.PNG"
+  },
+  {
+    "season": "spring",
+    "state": "thinking",
+    "filename": "public/shiori/spring/thinking.png",
+    "original": "240C9277-CC02-446B-8F94-DCE29C900C01.PNG"
+  },
+  {
+    "season": "spring",
+    "state": "wave",
+    "filename": "public/shiori/spring/wave.png",
+    "original": "64FB0D0C-9E05-459F-90F6-88B110A7E13B.PNG"
+  },
+  {
+    "season": "summer",
+    "state": "normal",
+    "filename": "public/shiori/summer/normal.png",
+    "original": "C9AE190A-87F3-425C-970F-B87B1367D82E.PNG"
+  },
+  {
+    "season": "summer",
+    "state": "memo",
+    "filename": "public/shiori/summer/memo.png",
+    "original": "37D018B3-D0CE-4DC6-AE47-B8C5A079E93E.PNG"
+  },
+  {
+    "season": "summer",
+    "state": "glasses",
+    "filename": "public/shiori/summer/glasses.png",
+    "original": "AB46BFA7-E482-4702-B8AC-50EA38176AA5.PNG"
+  },
+  {
+    "season": "summer",
+    "state": "coffee",
+    "filename": "public/shiori/summer/coffee.png",
+    "original": "4E171BE3-DF56-476D-93E9-BD1A92925EB6.PNG"
+  },
+  {
+    "season": "summer",
+    "state": "surprised",
+    "filename": "public/shiori/summer/surprised.png",
+    "original": "13F68A64-D46F-48D8-B468-2E3C52B18A0E.PNG"
+  },
+  {
+    "season": "summer",
+    "state": "wink",
+    "filename": "public/shiori/summer/wink.png",
+    "original": "B2C07EA8-FE0A-48AA-819D-2C694EE53928.PNG"
+  },
+  {
+    "season": "summer",
+    "state": "guts",
+    "filename": "public/shiori/summer/guts.png",
+    "original": "2E12A7D0-64B2-4745-ACEA-2B8EE0A08C24.PNG"
+  },
+  {
+    "season": "summer",
+    "state": "relax",
+    "filename": "public/shiori/summer/relax.png",
+    "original": "9B94CD2C-C7AF-4322-97B4-57694A3B0FEF.PNG"
+  },
+  {
+    "season": "summer",
+    "state": "prayer",
+    "filename": "public/shiori/summer/prayer.png",
+    "original": "3FC62173-9CEC-4393-846E-3CDC68B46CEE.PNG"
+  },
+  {
+    "season": "summer",
+    "state": "smile",
+    "filename": "public/shiori/summer/smile.png",
+    "original": "31D74C29-7FFB-4130-8333-17E45E4F2777.PNG"
+  },
+  {
+    "season": "summer",
+    "state": "thinking",
+    "filename": "public/shiori/summer/thinking.png",
+    "original": "9C0AFC72-AEFC-49DF-BDCA-CF98FCDC54CB.PNG"
+  },
+  {
+    "season": "summer",
+    "state": "wave",
+    "filename": "public/shiori/summer/wave.png",
+    "original": "0747263E-DD2E-40B2-93AF-DC35A869B60F.PNG"
+  },
+  {
+    "season": "autumn",
+    "state": "normal",
+    "filename": "public/shiori/autumn/normal.png",
+    "original": "BBC6D7D2-DB20-449F-9E3B-C36DCF2F87FA.PNG"
+  },
+  {
+    "season": "autumn",
+    "state": "memo",
+    "filename": "public/shiori/autumn/memo.png",
+    "original": "789BE9B4-2030-4B72-9718-1B7E74E2D095.PNG"
+  },
+  {
+    "season": "autumn",
+    "state": "glasses",
+    "filename": "public/shiori/autumn/glasses.png",
+    "original": "8C8001E3-A44D-4DA1-B3EE-C85906A07CD0.PNG"
+  },
+  {
+    "season": "autumn",
+    "state": "coffee",
+    "filename": "public/shiori/autumn/coffee.png",
+    "original": "8D7123F0-1AE1-4CBD-9864-188ABC15F106.PNG"
+  },
+  {
+    "season": "autumn",
+    "state": "surprised",
+    "filename": "public/shiori/autumn/surprised.png",
+    "original": "7B7C37D5-94D2-4EE8-9CF2-94C5A50B4472.PNG"
+  },
+  {
+    "season": "autumn",
+    "state": "wink",
+    "filename": "public/shiori/autumn/wink.png",
+    "original": "95FCFDD8-C7F0-4D2A-AE2A-38F48950C2E5.PNG"
+  },
+  {
+    "season": "autumn",
+    "state": "guts",
+    "filename": "public/shiori/autumn/guts.png",
+    "original": "4EC78018-FFD1-4D5F-9676-B4C782E3B499.PNG"
+  },
+  {
+    "season": "autumn",
+    "state": "relax",
+    "filename": "public/shiori/autumn/relax.png",
+    "original": "24DE98BD-4F28-4FC1-B8F6-79D3E12A3954.PNG"
+  },
+  {
+    "season": "autumn",
+    "state": "prayer",
+    "filename": "public/shiori/autumn/prayer.png",
+    "original": "FBBCFD71-8997-46F7-8139-1A8D64365F6B.PNG"
+  },
+  {
+    "season": "autumn",
+    "state": "smile",
+    "filename": "public/shiori/autumn/smile.png",
+    "original": "449C0EB8-AA35-4864-8789-0EE42D49D91A.PNG"
+  },
+  {
+    "season": "autumn",
+    "state": "thinking",
+    "filename": "public/shiori/autumn/thinking.png",
+    "original": "D018BC1C-8F13-4855-BE1F-FABB51DEEDC5.PNG"
+  },
+  {
+    "season": "autumn",
+    "state": "wave",
+    "filename": "public/shiori/autumn/wave.png",
+    "original": "C6458648-677E-4E75-8FD5-2BF31E0429BA.PNG"
+  },
+  {
+    "season": "winter",
+    "state": "normal",
+    "filename": "public/shiori/winter/normal.png",
+    "original": "9CCE4CA8-27D3-4766-BCF2-319B4FCCD246.PNG"
+  },
+  {
+    "season": "winter",
+    "state": "memo",
+    "filename": "public/shiori/winter/memo.png",
+    "original": "CF40A298-4DB4-4A5C-8D13-5C484A775904.PNG"
+  },
+  {
+    "season": "winter",
+    "state": "glasses",
+    "filename": "public/shiori/winter/glasses.png",
+    "original": "A5F91564-0D4A-4F61-B3E3-626088FFC774.PNG"
+  },
+  {
+    "season": "winter",
+    "state": "coffee",
+    "filename": "public/shiori/winter/coffee.png",
+    "original": "6FCE51E8-6656-4A87-B3A0-EAD41F31793C.PNG"
+  },
+  {
+    "season": "winter",
+    "state": "surprised",
+    "filename": "public/shiori/winter/surprised.png",
+    "original": "71C4592B-ABE0-4036-A571-6B34691D17A7.PNG"
+  },
+  {
+    "season": "winter",
+    "state": "wink",
+    "filename": "public/shiori/winter/wink.png",
+    "original": "C059C5E1-7C07-4FF3-8E0F-490F7D1E846D.PNG"
+  },
+  {
+    "season": "winter",
+    "state": "guts",
+    "filename": "public/shiori/winter/guts.png",
+    "original": "2A0125AA-9230-423E-97DA-FDCF3E630BB0.PNG"
+  },
+  {
+    "season": "winter",
+    "state": "relax",
+    "filename": "public/shiori/winter/relax.png",
+    "original": "DBA56B31-7E7B-4DD6-8100-BEA43E8BC2F6.PNG"
+  },
+  {
+    "season": "winter",
+    "state": "prayer",
+    "filename": "public/shiori/winter/prayer.png",
+    "original": "2B67FD6D-C5EA-40B3-A7C5-F10AE88E8B0E.PNG"
+  },
+  {
+    "season": "winter",
+    "state": "smile",
+    "filename": "public/shiori/winter/smile.png",
+    "original": "D271D12F-819C-4CBE-B468-100595650537.PNG"
+  },
+  {
+    "season": "winter",
+    "state": "thinking",
+    "filename": "public/shiori/winter/thinking.png",
+    "original": "699B8E65-D29C-4B25-A027-01ECFFF6806D.PNG"
+  },
+  {
+    "season": "winter",
+    "state": "wave",
+    "filename": "public/shiori/winter/wave.png",
+    "original": "64290272-502B-4C05-84B4-6743F0297A94.PNG"
+  },
+  {
+    "season": "event",
+    "state": "spring_100",
+    "filename": "public/shiori/event/spring_100.png",
+    "original": "95D555FC-7F4A-4FC7-8831-822A1C9DB60B.PNG"
+  },
+  {
+    "season": "event",
+    "state": "summer_100",
+    "filename": "public/shiori/event/summer_100.png",
+    "original": "92E9CA52-270A-43E3-B757-B87789E63003.PNG"
+  },
+  {
+    "season": "event",
+    "state": "autumn_100",
+    "filename": "public/shiori/event/autumn_100.png",
+    "original": "1255EFA0-FC9A-4A21-89AB-DE94D21EBBD0.PNG"
+  },
+  {
+    "season": "event",
+    "state": "winter_100",
+    "filename": "public/shiori/event/winter_100.png",
+    "original": "14030E3E-3AF4-4A81-8BA0-4AF16B14E3EB.PNG"
+  }
+]

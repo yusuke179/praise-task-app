@@ -1,26 +1,49 @@
 # 褒めてくれるタスク管理アプリ
 
-スマホでも使える、秘書キャラクターが褒めてくれるタスク管理アプリです。
+スマホでも使える、秘書キャラクター「栞さん」が褒めてくれるタスク管理アプリです。
 `index.html` だけで動作し、タスクは端末の localStorage に保存されます。
 
 ## ファイル構成
 
 ```
 praise-task-app/
-├── index.html    ← アプリ本体（これだけで起動可能）
-├── morning.png   ← 朝の挨拶（おはようボタン・1日の最初）
-├── normal.png    ← 通常時（達成率 0〜49%）
-├── support.png   ← 応援（達成率 50〜79%）
-├── happy.png     ← 頑張れ（達成率 80〜99%）※cheer状態
-├── perfect.png   ← 全タスク完了時
-├── tired.png     ← 「今日はこれで終了」押下後
-├── event50.png   ← 累計50件達成イベント
-├── special.png   ← 累計100/200/300/500/1000件達成イベント（画像共通・セリフ別）
-├── icon.png      ← ホーム画面アイコン
+├── index.html      ← アプリ本体（これだけで起動可能）
+├── icon.png        ← ホーム画面アイコン
+├── manifest.json   ← 栞さん画像の一覧（season / state / ファイルパス）
+├── manifest.csv    ← 同上（CSV版）
+├── public/
+│   └── shiori/
+│       ├── spring/ ← 春（3〜5月）の栞さん 12枚
+│       ├── summer/ ← 夏（6〜8月）の栞さん 12枚
+│       ├── autumn/ ← 秋（9〜11月）の栞さん 12枚
+│       ├── winter/ ← 冬（12〜2月）の栞さん 12枚
+│       └── event/  ← 100件達成イベント画像（spring_100.png など季節別4枚）
 └── README.md
 ```
 
-画像はすべて `index.html` と同じフォルダに置いてください。
+各季節フォルダには次の12状態の画像を置きます:
+`normal, memo, glasses, coffee, surprised, wink, guts, relax, prayer, smile, thinking, wave`
+
+## 季節と画像の表示ルール
+
+- 現在の日付から季節を自動判定します（春: 3〜5月 / 夏: 6〜8月 / 秋: 9〜11月 / 冬: 12〜2月）。
+- タスクの状態に応じて、その季節のフォルダから画像を表示します。
+  同じ状態に複数の候補画像がある場合はランダムに1枚選ばれます。
+
+| アプリの状態 | タイミング | 使用画像 |
+|---|---|---|
+| morning | 朝の挨拶・おはようボタン | wave / smile |
+| thinking | 予定・優先タスクの案内 | thinking / memo / glasses |
+| working | 達成率 0〜30% | memo / glasses / coffee |
+| smile | 達成率 30〜50% | smile / wink |
+| normal | 達成率 50〜80% | normal / smile |
+| cheer | 達成率 80〜99% | guts / wink |
+| perfect | 達成率 100% | guts / wink / prayer |
+| relax | 休憩のすすめ（5件完了ごと） | relax / coffee |
+| surprise | 新記録・イベント直前 | surprised |
+| tired | 「今日はこれで終了」後 | prayer / wave |
+
+- 画像が見つからない場合は、春の同名画像 → 春の normal.png の順に自動フォールバックします。
 
 ## GitHub Pagesでの公開手順
 
@@ -57,9 +80,10 @@ praise-task-app/
   - 状態遷移順: morning → normal → support → cheer → perfect → tired
 - ☀️ おはようボタン（1日1回。日付が変わると自動的に復活）
 - 累計達成タスク数の表示と、次のイベントまでの残り件数・進捗バー
-- 累計達成イベント（初回到達時のみ・お祝いモーダル＋紙吹雪）
-  - 50件: `event50.png`
-  - 100 / 200 / 300 / 500 / 1000件: `special.png`（セリフは件数ごとに変化）
+- 累計達成イベント（100件ごと＝100の倍数すべてで発生。初回到達時のみ・お祝いモーダル＋紙吹雪）
+  - 画像は季節別イベント画像 `public/shiori/event/<季節>_100.png`
+  - 100 / 200 / 300 / 500 / 1000件は専用セリフ、それ以外の倍数は汎用セリフ
+  - 一度表示したイベントは同じ累計数では再表示されません
 - 「今日はこれで終了」ボタンで、その日の未完了タスクを翌日に自動で繰り越し
 - 翌日アプリを開くと、終了状態が自動でリセットされる
 
@@ -68,7 +92,8 @@ praise-task-app/
 `index.html` の `<script>` 冒頭にある `CHARACTERS` 設定オブジェクトで一元管理しています。
 
 - **セリフを増やす**: 各状態の `messages` 配列に文字列を追加するだけ
-- **イベントを増やす**: `events` 配列に `{ count, image, messages }` を昇順で追加するだけ
+- **状態の画像候補を増やす**: 各状態の `images` 配列にファイル名を追加するだけ（季節フォルダは自動で付きます）
+- **イベントのセリフを増やす**: `eventMessages` に件数をキーとして追加（無い件数は `defaultEventMessages` が使われます）
 - **キャラクターを差し替える**（ツンデレ上司版・妹キャラ版・先輩版など）:
   1. `CHARACTERS` に新しいキー（例: `tsundere`）で states / events / endModalMessage を定義
   2. `ACTIVE_CHARACTER` をそのキーに変更

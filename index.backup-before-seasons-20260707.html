@@ -816,7 +816,7 @@
   <!-- ===== 上部：秘書さんヒーロー（主役） ===== -->
   <div class="hero">
     <div class="hero-char">
-      <img src="public/shiori/spring/normal.png" alt="栞さん" class="char-photo" id="charPhoto">
+      <img src="normal.png" alt="秘書さん" class="char-photo" id="charPhoto">
       <div class="speech-bubble" id="speechBubble">
         <p class="speech-text" id="speechText"></p>
       </div>
@@ -954,7 +954,7 @@
 <!-- 終了モーダル -->
 <div class="modal-overlay" id="modal" style="display:none">
   <div class="modal">
-    <img src="public/shiori/spring/prayer.png" alt="栞さん" class="modal-photo" id="endModalPhoto">
+    <img src="tired.png" alt="秘書さん" class="modal-photo">
     <p class="modal-msg" id="modalMsg">今日もお疲れさまでした😊</p>
 
     <div class="stats-grid">
@@ -980,7 +980,7 @@
 <div class="modal-overlay" id="eventModal" style="display:none">
   <div class="modal event-modal">
     <span class="event-badge" id="eventBadge">🎉 50件達成</span>
-    <img src="public/shiori/event/spring_100.png" alt="お祝い栞さん" class="modal-photo" id="eventPhoto">
+    <img src="event50.png" alt="お祝い秘書さん" class="modal-photo" id="eventPhoto">
     <p class="modal-msg" id="eventMsg"></p>
     <button class="btn-modal-ok" id="eventOkBtn">ありがとう♪</button>
   </div>
@@ -998,47 +998,18 @@
    * 画像・状態・イベント・セリフはすべて設定データで完結する。
    * ========================================================= */
 
-  /* =========================================================
-   * 栞さんの季節別画像システム
-   * 画像は public/shiori/<季節>/<状態>.png に配置（manifest.json 参照）
-   *   春: 3〜5月 / 夏: 6〜8月 / 秋: 9〜11月 / 冬: 12〜2月
-   * イベント画像は public/shiori/event/<季節>_100.png（100件ごとの達成イベント）
-   * 利用できる状態画像（各季節12枚）:
-   *   normal, memo, glasses, coffee, surprised, wink,
-   *   guts, relax, prayer, smile, thinking, wave
-   * ========================================================= */
-  const SHIORI_BASE = 'public/shiori';
-
-  function currentSeason(date) {
-    const m = (date || new Date()).getMonth() + 1;
-    if (m >= 3 && m <= 5) return 'spring';
-    if (m >= 6 && m <= 8) return 'summer';
-    if (m >= 9 && m <= 11) return 'autumn';
-    return 'winter';
-  }
-
-  // 状態画像のパス（現在の季節フォルダを参照する）
-  function shioriImg(name) {
-    return `${SHIORI_BASE}/${currentSeason()}/${name}`;
-  }
-
-  // 100件達成イベント画像のパス（季節別）
-  function shioriEventImg() {
-    return `${SHIORI_BASE}/event/${currentSeason()}_100.png`;
-  }
-
   const CHARACTERS = {
     secretary: {
-      name: '栞',
-      // 達成率による状態遷移: morning → working(0-30%) → smile(30-50%)
+      name: '秘書',
+      // 達成率による状態遷移: morning(thinking) → working(0-30%) → smile(30-50%)
       //   → normal(50-80%) → cheer(80-99%) → perfect(100%)。終了は tired。
       // relax(休憩) / surprise(新記録・イベント直前) は特定タイミングで割り込み表示する。
-      // images は「その状態で表示する候補画像」。複数あればランダムで1枚選ばれる。
-      // ファイル名のみを書き、季節フォルダは shioriImg() が自動で付ける。
+      // 画像: thinking/working/smile/cheer/relax/surprise/celebrate は新規追加。
+      // まだ画像が無い場合は IMAGE_FALLBACK で近い既存画像に退避する（壊れない）。
       states: {
-        // 朝（5:00〜・初回起動・おはよう）＝ 手を振って挨拶
+        // 朝（5:00〜・初回起動・おはよう）＝ thinking.png（知的で落ち着いた雰囲気）
         morning: {
-          images: ['wave.png', 'smile.png'],
+          image: 'thinking.png',
           messages: [
             'おはようございます☀️ 今日も始めましょう',
             '今日の予定を確認しておきましょうか😊',
@@ -1050,9 +1021,9 @@
             'やることを一緒に確認していきましょう📋',
           ],
         },
-        // 予定確認・優先タスクの案内＝ 考え中・メモ・眼鏡（少し真剣な表情）
+        // 予定確認・優先タスクの案内＝ thinking.png（少し真剣な表情）
         thinking: {
-          images: ['thinking.png', 'memo.png', 'glasses.png'],
+          image: 'thinking.png',
           messages: [
             '大事な予定がありますね😊',
             '今日の流れを整理してみましょう☕',
@@ -1062,9 +1033,9 @@
             '抜けがないか見ておきましょう😊',
           ],
         },
-        // 達成率0〜30%（通常状態）＝ メモ・眼鏡・コーヒー（作業中の雰囲気）
+        // 達成率0〜30%（通常状態）＝ working.png（ノートPCで作業しながら微笑む）
         working: {
-          images: ['memo.png', 'glasses.png', 'coffee.png'],
+          image: 'working.png',
           messages: [
             '私も作業していますので、一緒に頑張りましょう😊',
             'まずは滑り出しが大事ですね✨',
@@ -1076,9 +1047,9 @@
             '目の前の一つに集中しましょう😊',
           ],
         },
-        // 達成率30〜50%＝ 笑顔・ウインク（少し嬉しそうに見守る）
+        // 達成率30〜50%＝ smile.png（少し嬉しそうな笑顔・優しく見守る）
         smile: {
-          images: ['smile.png', 'wink.png'],
+          image: 'smile.png',
           messages: [
             'いい感じに進んでいますね😊',
             'もう半分が見えてきました✨',
@@ -1090,9 +1061,9 @@
             'いいですね、このまま続けましょう♪',
           ],
         },
-        // 達成率50〜80%＝ 通常・笑顔（折り返し）
+        // 達成率50〜80%＝ normal.png（折り返し）
         normal: {
-          images: ['normal.png', 'smile.png'],
+          image: 'normal.png',
           messages: [
             '半分を超えました、素晴らしいです✨',
             '後半戦ですね、いいペースです😊',
@@ -1104,9 +1075,9 @@
             '残りも一緒に片付けましょう😊',
           ],
         },
-        // 達成率80〜99%＝ ガッツポーズ・ウインク（応援）
+        // 達成率80〜99%＝ cheer.png（軽く拳を握る・応援）
         cheer: {
-          images: ['guts.png', 'wink.png'],
+          image: 'cheer.png',
           messages: [
             'あと少しです、ファイトです💪',
             'ゴールはすぐそこ！応援しています✨',
@@ -1118,9 +1089,9 @@
             '完璧まであと少しですよ😊',
           ],
         },
-        // 100%＝ ガッツポーズ・ウインク・お祈り（達成のよろこび）
+        // 100%＝ perfect.png
         perfect: {
-          images: ['guts.png', 'wink.png', 'prayer.png'],
+          image: 'perfect.png',
           messages: [
             '全タスク完了です、お見事🎉',
             '今日は完璧ですね、素晴らしいです✨',
@@ -1132,9 +1103,9 @@
             'よく頑張りました、満点です💯',
           ],
         },
-        // 休憩メッセージ＝ リラックス・コーヒー
+        // 休憩メッセージ＝ relax.png（猫柄マグカップ・優しく微笑む）
         relax: {
-          images: ['relax.png', 'coffee.png'],
+          image: 'relax.png',
           messages: [
             '少し休憩しませんか？☕',
             'ここまで頑張ったので、一息つきましょう😊',
@@ -1146,9 +1117,9 @@
             '休みながらで大丈夫、ゆっくりいきましょう♪',
           ],
         },
-        // 新記録・イベント直前＝ 驚いた表情
+        // 新記録・イベント直前＝ surprise.png（少し驚いた表情）
         surprise: {
-          images: ['surprised.png'],
+          image: 'surprise.png',
           messages: [
             'わっ、すごいです！新記録ですよ✨',
             'えっ、もうこんなに！？驚きました😲',
@@ -1159,9 +1130,9 @@
             'もうすぐ大きな節目ですよ、楽しみですね😊',
           ],
         },
-        // 「今日はこれで終了」＝ お祈り（お疲れさま）・手を振る（また明日）
+        // 「今日はこれで終了」＝ tired.png
         tired: {
-          images: ['prayer.png', 'wave.png'],
+          image: 'tired.png',
           messages: [
             '今日もお疲れさまでした🌙',
             'ゆっくり休んでくださいね😊',
@@ -1188,22 +1159,31 @@
         '着実に進んでいますね😊',
         'ナイスです♪',
       ],
-      // 累計達成数イベント: 100件ごと（100, 200, 300, …と100の倍数すべてで発生）。
-      // 画像は季節別イベント画像 public/shiori/event/<季節>_100.png を使う。
-      // 一度表示した件数は shownEvents に記録され、同じ累計数では再表示されない。
-      // 件数ごとの特別なセリフは eventMessages に定義し、
-      // 定義が無い件数は defaultEventMessages（{count}が件数に置換される）を使う。
-      eventInterval: 100,
-      eventMessages: {
-        100:  ['100タスク達成です、本当におめでとうございます🎊', 'ここまで続けられるのは、本当にすごいことですよ✨'],
-        200:  ['もう200件ですね😊', 'あなたの頑張りを、私はちゃんと見ていますよ♪'],
-        300:  ['本当に頑張っていますね♪', '300件、誇りに思っていいですよ✨'],
-        500:  ['私、とても誇らしいです✨', '500件…言葉になりません、お見事です🌸'],
-        1000: ['ここまで続けられる人は、なかなかいません♪', '1000件達成、心から尊敬します✨'],
-      },
-      defaultEventMessages: [
-        '{count}タスク達成です、おめでとうございます🎉',
-        'また一つ大きな節目ですね、本当に素晴らしいです✨',
+      // 累計達成数イベント（count の昇順で定義する）
+      //   50達成      → celebrate.png（フリップを持っている）
+      //   100達成以降 → special.png（両手を広げている）
+      events: [
+        {
+          count: 50,
+          image: 'celebrate.png',
+          messages: [
+            '50タスク達成、おめでとうございます🎉',
+            '小さな積み重ねが実を結びましたね♪',
+            'ここまでよく続けました、お見事です✨',
+          ],
+        },
+        {
+          count: 100,
+          image: 'special.png',
+          messages: [
+            '100タスク達成です、本当におめでとうございます🎊',
+            'ここまで続けられるのは、本当にすごいことですよ✨',
+          ],
+        },
+        { count: 200,  image: 'special.png', messages: ['もう200件ですね😊', 'あなたの頑張りを、私はちゃんと見ていますよ♪'] },
+        { count: 300,  image: 'special.png', messages: ['本当に頑張っていますね♪', '300件、誇りに思っていいですよ✨'] },
+        { count: 500,  image: 'special.png', messages: ['私、とても誇らしいです✨', '500件…言葉になりません、お見事です🌸'] },
+        { count: 1000, image: 'special.png', messages: ['ここまで続けられる人は、なかなかいません♪', '1000件達成、心から尊敬します✨'] },
       ],
       endModalMessage: '今日はここまでですね😊<br>残りのタスクは明日に繰り越しておきます♪<br>お疲れさまでした💕',
     },
@@ -1342,7 +1322,6 @@
   const charPhoto    = document.getElementById('charPhoto');
   const endBtn       = document.getElementById('endBtn');
   const modal        = document.getElementById('modal');
-  const endModalPhoto= document.getElementById('endModalPhoto');
   const modalMsg     = document.getElementById('modalMsg');
   const modalOkBtn   = document.getElementById('modalOkBtn');
   const confettiLayer= document.getElementById('confettiLayer');
@@ -1422,10 +1401,8 @@
     const state = CHAR.states[stateName];
     if (!state) return;
 
-    // 状態が変わったときだけ画像を引き直す（renderのたびに画像がランダムに
-    // 切り替わってチラつくのを防ぐ）
+    charPhoto.src = state.image;
     if (force || stateName !== currentState) {
-      charPhoto.src = shioriImg(rand(state.images));
       setSpeech(pickMessage(stateName, state.messages));
       currentState = stateName;
     }
@@ -1435,7 +1412,7 @@
   function showState(stateName, html) {
     const state = CHAR.states[stateName];
     if (!state) return;
-    charPhoto.src = shioriImg(rand(state.images));
+    charPhoto.src = state.image;
     setSpeech(html != null ? html : pickMessage(stateName, state.messages));
     currentState = stateName;
     bounceChar();
@@ -1443,15 +1420,23 @@
 
   function showStateNow(stateName) { showState(stateName); }
 
-  // 画像が読み込めない場合のフォールバック:
-  //   1. まず春フォルダの同名画像に退避（季節フォルダの欠けに備える）
-  //   2. それでもだめなら春の normal.png に退避
+  // 新規追加の画像(thinking/working/smile/cheer/relax/surprise/celebrate)が
+  // まだ用意されていない場合でも壊れないよう、近い既存画像にフォールバックする。
+  // 本物の差し替え画像を同名で置けば自動でそちらが使われる。
+  const IMAGE_FALLBACK = {
+    'thinking.png':  'morning.png',
+    'working.png':   'normal.png',
+    'smile.png':     'happy.png',
+    'cheer.png':     'happy.png',
+    'relax.png':     'support.png',
+    'surprise.png':  'happy.png',
+    'celebrate.png': 'event50.png',
+  };
   charPhoto.addEventListener('error', () => {
-    const src = charPhoto.getAttribute('src') || '';
-    const file = src.split('/').pop();
-    const springSrc = `${SHIORI_BASE}/spring/${file}`;
-    if (src !== springSrc) charPhoto.src = springSrc;
-    else if (file !== 'normal.png') charPhoto.src = `${SHIORI_BASE}/spring/normal.png`;
+    const file = (charPhoto.getAttribute('src') || '').split('/').pop();
+    const fb = IMAGE_FALLBACK[file];
+    if (fb && file !== fb) charPhoto.src = fb;
+    else if (file !== 'normal.png') charPhoto.src = 'normal.png';
   });
 
   /* =========================================================
@@ -1460,11 +1445,20 @@
   function updateLifetime() {
     lifetimeCount.textContent = totalDone;
 
-    // イベントは100件ごとに無限に続くので、次の100の倍数が常に目標になる
-    const interval = CHAR.eventInterval;
-    const next = (Math.floor(totalDone / interval) + 1) * interval;
-    const prev = next - interval;
-    const pct = Math.round((totalDone - prev) / interval * 100);
+    const thresholds = CHAR.events.map(ev => ev.count);
+    const next = thresholds.find(c => c > totalDone);
+
+    if (next === undefined) {
+      eventBarFill.style.width = '100%';
+      eventRemain.innerHTML = 'すべてのイベントを達成しました🎉';
+      return;
+    }
+
+    let prev = 0;
+    for (const c of thresholds) {
+      if (c <= totalDone) prev = c;
+    }
+    const pct = Math.round((totalDone - prev) / (next - prev) * 100);
     eventBarFill.style.width = pct + '%';
     eventRemain.innerHTML = `次まで <strong>あと${next - totalDone}件</strong>`;
   }
@@ -1496,36 +1490,26 @@
   /* =========================================================
    * イベント（初回到達時のみ表示）
    * ========================================================= */
-  // イベント画像が読み込めない場合は春のイベント画像に退避する。
+  // イベントモーダルの画像も、celebrate.png が未用意なら event50.png に退避する。
   eventPhoto.addEventListener('error', () => {
-    const fallback = `${SHIORI_BASE}/event/spring_100.png`;
-    if (eventPhoto.getAttribute('src') !== fallback) eventPhoto.src = fallback;
+    const file = (eventPhoto.getAttribute('src') || '').split('/').pop();
+    if (file === 'celebrate.png') eventPhoto.src = 'event50.png';
+    else if (file !== 'special.png') eventPhoto.src = 'special.png';
   });
 
-  // 指定件数のイベントメッセージを返す（専用が無ければ汎用メッセージ）
-  function eventMessagesFor(count) {
-    return CHAR.eventMessages[count]
-      || CHAR.defaultEventMessages.map(m => m.replace('{count}', count));
-  }
-
-  // 累計イベント（100の倍数）に到達していればモーダルを表示し true を返す。
-  // 一度表示した件数は shownEvents に保存され、同じ累計数では再表示されない。
+  // 累計イベントに到達していればモーダルを表示し true を返す。
   function checkEvents() {
-    const interval = CHAR.eventInterval;
-    const reached = [];
-    for (let c = interval; c <= totalDone; c += interval) {
-      if (!shownEvents.includes(c)) reached.push(c);
-    }
+    const reached = CHAR.events.filter(ev => totalDone >= ev.count && !shownEvents.includes(ev.count));
     if (reached.length === 0) return false;
 
     // 複数同時到達時は最大のものを表示し、すべて表示済みにする
-    const count = reached[reached.length - 1];
-    reached.forEach(c => shownEvents.push(c));
+    const ev = reached[reached.length - 1];
+    reached.forEach(r => shownEvents.push(r.count));
     save();
 
-    eventBadge.textContent = `🎉 ${count}件達成`;
-    eventPhoto.src = shioriEventImg();
-    eventMsg.innerHTML = eventMessagesFor(count).join('<br>');
+    eventBadge.textContent = `🎉 ${ev.count}件達成`;
+    eventPhoto.src = ev.image;
+    eventMsg.innerHTML = ev.messages.join('<br>');
     eventModal.style.display = 'flex';
     shootConfetti();
     return true;
@@ -1832,9 +1816,9 @@
         save();
       }
 
-      // イベント直前（あと1件で累計イベント＝100の倍数に到達）か
-      const imminent = (totalDone + 1) % CHAR.eventInterval === 0
-        && !shownEvents.includes(totalDone + 1);
+      // イベント直前（あと1件で累計イベント到達）か
+      const imminent = CHAR.events.some(ev =>
+        ev.count === totalDone + 1 && !shownEvents.includes(ev.count));
 
       // 休憩をすすめるタイミング（5件完了ごと）
       relaxStep++;
@@ -1848,7 +1832,7 @@
 
       if (!allDone && !eventFired) {
         if (imminent || newRecord) {
-          // 新記録・イベント直前 → surprised（驚いた表情）
+          // 新記録・イベント直前 → surprise.png
           showState('surprise', imminent
             ? '次のイベントまで<strong>あと1件</strong>です、ドキドキしますね😲'
             : `本日<strong>${done}件</strong>、新記録です✨`);
@@ -1925,8 +1909,6 @@
     updateCharacter(true);
     updateMorningButton();
 
-    // 終了モーダルの栞さんも現在の季節の画像にする
-    endModalPhoto.src = shioriImg(rand(CHAR.states.tired.images));
     modalMsg.innerHTML = CHAR.endModalMessage;
     modal.style.display = 'flex';
   });
